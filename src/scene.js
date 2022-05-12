@@ -39,12 +39,12 @@ class scene extends Phaser.Scene {
         this.platforms.setCollisionByExclusion(-1, true);
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        
+
 
 
 
         this.initKeyboard();
-        this.cameras.main.startFollow(this.player.player,false);
+        this.cameras.main.startFollow(this.player.cam,false);
     }
 
     initKeyboard(){
@@ -64,11 +64,11 @@ class scene extends Phaser.Scene {
                     console.log("oui")
                     me.player.gravitynorm();
                     break;
-                case Phaser.Input.Keyboard.KeyCodes.NUMPAD_SIX:
+                case Phaser.Input.Keyboard.KeyCodes.D:
                     console.log("oui")
                     me.player.tir(1);
                     break;
-                case Phaser.Input.Keyboard.KeyCodes.NUMPAD_FOUR:
+                case Phaser.Input.Keyboard.KeyCodes.Q:
                     console.log("oui")
                     me.player.tir(-1);
                     break;
@@ -87,6 +87,9 @@ class scene extends Phaser.Scene {
     }
 
     update() {
+        this.player.cam.setX(this.player.player.x);
+        this.player.cam.setY(this.player.player.y-125);
+
 
         switch (true) {
             case (this.cursors.space.isDown || this.cursors.up.isDown) && this.player.player.body.onFloor():

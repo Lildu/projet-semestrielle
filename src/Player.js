@@ -9,6 +9,10 @@ class Player {
         this.player.setScale(1);
         this.player.setFlipX(true);
 
+        this.cam = this.scene.add.sprite(this.player.x, this.player.y+100,"square");
+        this.cam.setScale(0.2)
+        this.cam.setVisible(false)
+
 
         this.player.setCollideWorldBounds(false);
         this.scene.physics.add.collider(this.player, this.scene.platforms);
