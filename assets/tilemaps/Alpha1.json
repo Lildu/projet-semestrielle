@@ -66,12 +66,83 @@
          "width":112,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":6,
+         "name":"Mouvable",
+         "objects":[
+                {
+                 "gid":7,
+                 "height":64,
+                 "id":53,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":-318.666666666667,
+                 "y":762.666666666667
+                }, 
+                {
+                 "gid":7,
+                 "height":64,
+                 "id":54,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":-128,
+                 "y":753.333333333333
+                }, 
+                {
+                 "gid":7,
+                 "height":64,
+                 "id":55,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":-576,
+                 "y":758.666666666667
+                }, 
+                {
+                 "gid":7,
+                 "height":64,
+                 "id":56,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":-580,
+                 "y":672
+                }, 
+                {
+                 "gid":7,
+                 "height":64,
+                 "id":57,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":-574.666666666667,
+                 "y":589.333333333333
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":6,
- "nextobjectid":53,
+ "nextlayerid":8,
+ "nextobjectid":58,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.7.2",
+ "tiledversion":"1.8.4",
  "tileheight":64,
  "tilesets":[
         {
@@ -86,22 +157,9 @@
          "tilecount":98,
          "tileheight":64,
          "tilewidth":64
-        }, 
-        {
-         "columns":14,
-         "firstgid":99,
-         "image":"..\/tilesets\/platformPack_tilesheet.png",
-         "imageheight":448,
-         "imagewidth":896,
-         "margin":0,
-         "name":"platformPack_tilesheet",
-         "spacing":0,
-         "tilecount":98,
-         "tileheight":64,
-         "tilewidth":64
         }],
  "tilewidth":64,
  "type":"map",
- "version":"1.6",
+ "version":"1.8",
  "width":14
 }
