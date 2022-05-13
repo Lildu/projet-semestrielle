@@ -64,6 +64,7 @@ class scene extends Phaser.Scene {
 
 
         this.physics.add.collider(this.moves, this.moveSprite)
+
         this.physics.add.collider(this.moves, this.platforms)
 
 

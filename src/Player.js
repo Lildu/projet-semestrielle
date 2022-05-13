@@ -2,6 +2,7 @@ class Player {
 
 
     constructor(scene) {
+        let life =50;
         this.scene=scene
         this.cameras=scene
         this.player = this.scene.physics.add.sprite(50, -300,"dude");
@@ -23,7 +24,6 @@ class Player {
             frameRate: 60,
             flipX: true,
             repeat: 1,
-
         });
 
         this.scene.anims.create({
@@ -32,17 +32,22 @@ class Player {
             frameRate: 60,
             flipX: true,
             repeat: -1
-
         });
+
         this.scene.anims.create({
             key: 'jump',
             frames: this.scene.anims.generateFrameNumbers('walk', {start: 0, end: 119}),
             frameRate: 60,
             repeat:-1,
         });
-
         this.scene.physics.add.collider(this.player, this.scene.moves,this.force,null,this)
+
+
     }
+    life(){
+        this.player.life-=1;
+    }
+
     force(player,moves){
         if(player.body.touching.left || player.body.touching.right) {
             moves.setImmovable(false)
@@ -81,7 +86,7 @@ class Player {
 
         this.balle = this.scene.add.sprite(this.player.x, this.player.y,"square");
         this.balle.setDisplaySize(10,10);
-
+        //this.scene.physics.add.collider(this.balle, this.scene.moves,this.life,null,this)
         this.scene.tweens.add({
             targets: this.balle,
             x: (this.player.x+15000)*v,
