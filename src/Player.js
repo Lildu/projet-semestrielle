@@ -40,8 +40,19 @@ class Player {
             frameRate: 60,
             repeat:-1,
         });
-    }
 
+        this.scene.physics.add.collider(this.player, this.scene.moves,this.force,null,this)
+    }
+    force(player,moves){
+        if(player.body.touching.left || player.body.touching.right) {
+            moves.setImmovable(false)
+            this.pousse = true
+        }
+        if(player.body.touching.down){
+            moves.setImmovable()
+            this.player.body.blocked.down=true //ici on fais croire a phaser que le sprite est static pour pouvoir sauter dessus (uniquement valable pour utiliser la fonction onFloor())
+        }
+    }
     jump(){
         this.player.setVelocityY(-420);
         this.player.play('jump', true);
@@ -66,14 +77,15 @@ class Player {
             this.player.play('idle',true)
         }
     }
-    tir(v){
+    tir(v,b){
 
         this.balle = this.scene.add.sprite(this.player.x, this.player.y,"square");
         this.balle.setDisplaySize(10,10);
 
         this.scene.tweens.add({
             targets: this.balle,
-            x: this.player.x+(15000*v),
+            x: (this.player.x+15000)*v,
+            y: (this.player.y+15000)*b,
             duration: 10000,
             ease: 'Power',
             repeat: 0,
@@ -98,13 +110,10 @@ class Player {
     }
 
 
-    gravitystop(){
+    gravitychange(g){
+        this.player.setGravityY(g);
+    }
 
-        this.player.setGravityY(0);
-    }
-    gravitynorm(){
-        this.player.setGravityY(500);
-    }
 
     }
 

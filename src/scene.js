@@ -9,6 +9,7 @@ class scene extends Phaser.Scene {
 
         this.load.image('dude', 'assets/images/dude.png');
         this.load.image('square', 'assets/images/square.png');
+        this.load.image('mouvable', 'assets/images/mouvable.png');
 
 
         this.load.spritesheet('walk', 'assets/images/tilesheet/tilesheet-walk.png',{ frameWidth: 512, frameHeight: 512 });
@@ -37,10 +38,33 @@ class scene extends Phaser.Scene {
         this.platforms = map.createStaticLayer('Sol', tileset);
 
         this.platforms.setCollisionByExclusion(-1, true);
+
         this.cursors = this.input.keyboard.createCursorKeys();
 
+/**
+        this.mouvable = this.physics.add.group({
+            allowGravity: false,
+            immovable: false
+        });
+        map.getObjectLayer('Mouvable').objects.forEach((Mouvable) => {
+            const mouvableSprite = this.mouvable.create(Mouvable.x , Mouvable.y - Mouvable.height, 'mouvable').setOrigin(0);
+        });
+
+        //this.physics.add.collider(this.player.player, this.mouvable,pousser,null,this)
+        this.physics.add.collider(this.mouvable,this.player.player)
+       // this.physics.add.collider(this.mouvableSprite, this.);**/
+        this.moves = this.physics.add.group({
+            allowGravity: true,
+            immovable: false
+        });
+        map.getObjectLayer('Mouvable').objects.forEach((move) => {
+            this.moveSprite = this.moves.create(move.x, move.y - move.height, 'mouvable').setOrigin(0);
+        });
 
 
+
+        this.physics.add.collider(this.moves, this.moveSprite)
+        this.physics.add.collider(this.moves, this.platforms)
 
 
         this.initKeyboard();
@@ -57,23 +81,31 @@ class scene extends Phaser.Scene {
             {
                 case Phaser.Input.Keyboard.KeyCodes.E:
                     console.log("oui")
-                    me.player.gravitystop();
+                    me.player.gravitychange(0);
                     break;
 
                 case Phaser.Input.Keyboard.KeyCodes.A:
                     console.log("oui")
-                    me.player.gravitynorm();
+                    me.player.gravitychange(500);
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.D:
                     console.log("oui")
-                    me.player.tir(1);
+                    me.player.tir(1,0);
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.Q:
                     console.log("oui")
-                    me.player.tir(-1);
+                    me.player.tir(-1,0);
+                    break;
+ /**               case Phaser.Input.Keyboard.KeyCodes.Z:
+                    console.log("oui")
+                    me.player.tir(0,-1);
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.S:
+                    console.log("oui")
+                    me.player.tir(0,1);
                     break;
 
-
+**/
 
             }
         });
@@ -98,20 +130,20 @@ class scene extends Phaser.Scene {
             case this.cursors.left.isDown:
 
                 if(this.cursors.left.shiftKey){
-                    this.player.moveLeft(600);
+                    this.player.moveLeft(300);
                     break;
                 }
                 else{
-                    this.player.moveLeft(300);
+                    this.player.moveLeft(200);
                 }
                 break;
             case this.cursors.right.isDown:
                 if(this.cursors.right.shiftKey){
-                    this.player.moveRight(600);
+                    this.player.moveRight(300);
                     break;
                 }
                 else{
-                    this.player.moveRight(300);
+                    this.player.moveRight(200);
                 }
                 break;
 
