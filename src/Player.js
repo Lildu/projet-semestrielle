@@ -41,8 +41,18 @@ class Player {
             repeat:-1,
         });
         this.scene.physics.add.collider(this.player, this.scene.moves,this.force,null,this)
+        this.enemi = this.scene.add.sprite(0, 0,"enemi");
+        this.enemi.setScale(0.2);
 
-
+        this.scene.tweens.add({
+            targets: this.enemi,
+            x: this.player.x,
+            y: this.player.y,
+            duration: 10000,
+            ease: 'Power',
+            repeat: 0,
+            delay:0
+        });
     }
     life(){
         this.player.life-=1;
@@ -121,6 +131,5 @@ class Player {
 
 
     }
-
 
 

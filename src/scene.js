@@ -10,6 +10,7 @@ class scene extends Phaser.Scene {
         this.load.image('dude', 'assets/images/dude.png');
         this.load.image('square', 'assets/images/square.png');
         this.load.image('mouvable', 'assets/images/mouvable.png');
+        this.load.image('enemi', 'assets/images/enemi.png');
 
 
         this.load.spritesheet('walk', 'assets/images/tilesheet/tilesheet-walk.png',{ frameWidth: 512, frameHeight: 512 });
@@ -29,7 +30,6 @@ class scene extends Phaser.Scene {
 
 
 
-
         const backgroundImage = this.add.image(0, 0, 'background').setOrigin(0, 0);
         backgroundImage.setScale(1, 0.8);
         const map = this.make.tilemap({key: 'map'});
@@ -38,7 +38,6 @@ class scene extends Phaser.Scene {
         this.platforms = map.createStaticLayer('Sol', tileset);
 
         this.platforms.setCollisionByExclusion(-1, true);
-
         this.cursors = this.input.keyboard.createCursorKeys();
 
 /**
@@ -60,11 +59,7 @@ class scene extends Phaser.Scene {
         map.getObjectLayer('Mouvable').objects.forEach((move) => {
             this.moveSprite = this.moves.create(move.x, move.y - move.height, 'mouvable').setOrigin(0);
         });
-
-
-
         this.physics.add.collider(this.moves, this.moveSprite)
-
         this.physics.add.collider(this.moves, this.platforms)
 
 
