@@ -68,7 +68,7 @@ class scene extends Phaser.Scene {
     }
 
     initKeyboard(){
-
+        let tire=false;
         this.player = new Player(this)
         let me=this;
         this.input.keyboard.on('keydown', function(kevent)
@@ -87,10 +87,12 @@ class scene extends Phaser.Scene {
                 case Phaser.Input.Keyboard.KeyCodes.D:
                     console.log("oui")
                     me.player.tir(1,0);
+                    tire=true;
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.Q:
                     console.log("oui")
                     me.player.tir(-1,0);
+                    tire=true;
                     break;
  /**               case Phaser.Input.Keyboard.KeyCodes.Z:
                     console.log("oui")
@@ -117,16 +119,17 @@ class scene extends Phaser.Scene {
     update() {
         this.player.cam.setX(this.player.player.x);
         this.player.cam.setY(this.player.player.y-125);
-
+        this.player.mooveenemi();
 
         switch (true) {
+
             case (this.cursors.space.isDown || this.cursors.up.isDown) && this.player.player.body.onFloor():
                 this.player.jump()
                 break;
             case this.cursors.left.isDown:
 
                 if(this.cursors.left.shiftKey){
-                    this.player.moveLeft(300);
+                    this.player.moveLeft(400);
                     break;
                 }
                 else{
@@ -135,7 +138,7 @@ class scene extends Phaser.Scene {
                 break;
             case this.cursors.right.isDown:
                 if(this.cursors.right.shiftKey){
-                    this.player.moveRight(300);
+                    this.player.moveRight(400);
                     break;
                 }
                 else{
@@ -146,6 +149,7 @@ class scene extends Phaser.Scene {
 
             default:
                 this.player.stop();
+
         }
     }
 }

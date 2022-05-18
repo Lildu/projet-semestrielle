@@ -2,7 +2,9 @@ class Player {
 
 
     constructor(scene) {
-        let life =50;
+        let life;
+        life=10;
+        console.log(life);
         this.scene=scene
         this.cameras=scene
         this.player = this.scene.physics.add.sprite(50, -300,"dude");
@@ -17,7 +19,7 @@ class Player {
 
         this.player.setCollideWorldBounds(false);
         this.scene.physics.add.collider(this.player, this.scene.platforms);
-
+//          ANIMATION               //
         this.scene.anims.create({
             key: 'walk',
             frames: this.scene.anims.generateFrameNumbers('walk', {start: 0, end: 119}),
@@ -40,10 +42,33 @@ class Player {
             frameRate: 60,
             repeat:-1,
         });
-        this.scene.physics.add.collider(this.player, this.scene.moves,this.force,null,this)
-        this.enemi = this.scene.add.sprite(0, 0,"enemi");
-        this.enemi.setScale(0.2);
 
+
+        this.scene.anims.create({
+            key: 'midle',
+            frames: this.scene.anims.generateFrameNumbers('midle', {start: 0, end: 5}),
+            frameRate: 30,
+            repeat:-1,
+        });
+
+
+
+
+        this.scene.physics.add.collider(this.player, this.scene.moves,this.force,null,this)
+
+
+        this.enemi = this.scene.physics.add.sprite(0, 0,"enemi");
+        this.enemi.setGravity(0);
+        this.enemi.setScale(0.2);
+        this.scene.physics.add.overlap(this.player, this.scene.enemi,this.lifelost(life))
+
+
+    }
+    lifelost(life){
+        life-=1;
+        console.log(life);
+    }
+    mooveenemi(){
         this.scene.tweens.add({
             targets: this.enemi,
             x: this.player.x,
@@ -54,10 +79,6 @@ class Player {
             delay:0
         });
     }
-    life(){
-        this.player.life-=1;
-    }
-
     force(player,moves){
         if(player.body.touching.left || player.body.touching.right) {
             moves.setImmovable(false)
@@ -94,9 +115,10 @@ class Player {
     }
     tir(v,b){
 
-        this.balle = this.scene.add.sprite(this.player.x, this.player.y,"square");
+        this.player.play('midle', true);
+        this.balle = this.scene.physics.add.sprite(this.player.x, this.player.y,"square");
         this.balle.setDisplaySize(10,10);
-        //this.scene.physics.add.collider(this.balle, this.scene.moves,this.life,null,this)
+        this.scene.physics.add.collider(this.balle, this.scene.enemi,this.enemi.destroy(),this)
         this.scene.tweens.add({
             targets: this.balle,
             x: (this.player.x+15000)*v,
@@ -106,19 +128,19 @@ class Player {
             repeat: 0,
             delay:0
         });
-        if(this.balle.y < this.player.player.y-500 ){
+        if(this.balle.y < this.player.y-500 ){
 
             this.balle.destroy();
         }
-        if(this.balle.y > this.player.player.y+500 ){
+        if(this.balle.y > this.player.y+500 ){
 
             this.balle.destroy();
         }
-        if(this.balle.x < this.player.player.x-1000 ){
+        if(this.balle.x < this.player.x-1000 ){
 
             this.balle.destroy();
         }
-        if(this.balle.x > this.player.player.x+1000 ) {
+        if(this.balle.x > this.player.x+1000 ) {
 
             this.balle.destroy();
         }
