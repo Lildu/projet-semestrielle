@@ -35,10 +35,15 @@ class scene extends Phaser.Scene {
         const map = this.make.tilemap({key: 'map'});
 
         const tileset = map.addTilesetImage('Alpha_test1', 'tiles');
+
+        this.three = map.createStaticLayer('three', tileset);
+
         this.platforms = map.createStaticLayer('Sol', tileset);
 
         this.platforms.setCollisionByExclusion(-1, true);
         this.cursors = this.input.keyboard.createCursorKeys();
+
+
 
 /**
         this.mouvable = this.physics.add.group({
@@ -65,6 +70,8 @@ class scene extends Phaser.Scene {
 
         this.initKeyboard();
         this.cameras.main.startFollow(this.player.cam,false);
+        this.cameras.main.zoom= 2;
+        this.fog = map.createStaticLayer('fog', tileset);
     }
 
     initKeyboard(){

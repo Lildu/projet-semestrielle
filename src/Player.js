@@ -9,10 +9,10 @@ class Player {
         this.cameras=scene
         this.player = this.scene.physics.add.sprite(50, -300,"dude");
         //this.player.setBounce(0.1);
-        this.player.setScale(1);
+        this.player.setScale(0.3);
         this.player.setFlipX(true);
 
-        this.cam = this.scene.add.sprite(this.player.x, this.player.y+100,"square");
+        this.cam = this.scene.add.sprite(this.player.x, this.player.y+50,"square");
         this.cam.setScale(0.2)
         this.cam.setVisible(false)
 
@@ -58,7 +58,7 @@ class Player {
 
 
         this.enemi = this.scene.physics.add.sprite(0, 0,"enemi");
-        this.enemi.setGravity(0);
+        this.enemi.setGravity(-500);
         this.enemi.setScale(0.2);
         this.scene.physics.add.overlap(this.player, this.scene.enemi,this.lifelost(life))
 
@@ -118,7 +118,7 @@ class Player {
         this.player.play('midle', true);
         this.balle = this.scene.physics.add.sprite(this.player.x, this.player.y,"square");
         this.balle.setDisplaySize(10,10);
-        this.scene.physics.add.collider(this.balle, this.scene.enemi,this.enemi.destroy(),this)
+        this.scene.physics.add.overlap(this.balle, this.scene.enemi, null,this.enemi.destroy())
         this.scene.tweens.add({
             targets: this.balle,
             x: (this.player.x+15000)*v,
