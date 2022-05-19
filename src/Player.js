@@ -18,7 +18,7 @@ class Player {
 
 
         this.player.setCollideWorldBounds(false);
-        this.scene.physics.add.collider(this.player, this.scene.platforms);
+
 //          ANIMATION               //
         this.scene.anims.create({
             key: 'walk',
@@ -62,7 +62,7 @@ class Player {
         this.enemi.setScale(0.2);
         this.scene.physics.add.overlap(this.player, this.scene.enemi,this.lifelost(life))
 
-
+        this.scene.physics.add.collider(this.player, this.scene.platforms);
     }
     lifelost(life){
         life-=1;
@@ -74,7 +74,7 @@ class Player {
             x: this.player.x,
             y: this.player.y,
             duration: 10000,
-            ease: 'Power',
+            ease: 'Each',
             repeat: 0,
             delay:0
         });
@@ -91,8 +91,7 @@ class Player {
     }
     jump(){
         this.player.setVelocityY(-420);
-        this.player.play('jump', true);
-
+        this.player.play('walk', true);
     }
     moveRight(v){
         this.player.setVelocityX(v);

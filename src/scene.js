@@ -36,9 +36,17 @@ class scene extends Phaser.Scene {
 
         const tileset = map.addTilesetImage('Alpha_test1', 'tiles');
 
+        this.three2 = map.createStaticLayer('three2', tileset);
+
+
         this.three = map.createStaticLayer('three', tileset);
 
+
+        this.backfirst = map.createStaticLayer('back-first', tileset);
+
+
         this.platforms = map.createStaticLayer('Sol', tileset);
+
 
         this.platforms.setCollisionByExclusion(-1, true);
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -70,14 +78,16 @@ class scene extends Phaser.Scene {
 
         this.initKeyboard();
         this.cameras.main.startFollow(this.player.cam,false);
-        this.cameras.main.zoom= 2;
+        this.cameras.main.zoom= 1.5;
         this.fog = map.createStaticLayer('fog', tileset);
+
     }
 
     initKeyboard(){
         let tire=false;
         this.player = new Player(this)
         let me=this;
+
         this.input.keyboard.on('keydown', function(kevent)
         {
             switch (kevent.keyCode)
@@ -91,43 +101,75 @@ class scene extends Phaser.Scene {
                     console.log("oui")
                     me.player.gravitychange(500);
                     break;
-                case Phaser.Input.Keyboard.KeyCodes.D:
+/**                case Phaser.Input.Keyboard.KeyCodes.D:
                     console.log("oui")
                     me.player.tir(1,0);
                     tire=true;
-                    break;
-                case Phaser.Input.Keyboard.KeyCodes.Q:
+                    break;*/
+                case Phaser.Input.Keyboard.KeyCodes.F:
                     console.log("oui")
                     me.player.tir(-1,0);
                     tire=true;
                     break;
- /**               case Phaser.Input.Keyboard.KeyCodes.Z:
-                    console.log("oui")
-                    me.player.tir(0,-1);
+                case Phaser.Input.Keyboard.KeyCodes.Z:
+                    if  (me.player.player.body.onFloor()){
+                        me.player.jump()
+                    }
+
                     break;
+
                 case Phaser.Input.Keyboard.KeyCodes.S:
-                    console.log("oui")
-                    me.player.tir(0,1);
+
                     break;
-
-**/
-
+                case Phaser.Input.Keyboard.KeyCodes.Q:
+                    me.player.moveLeft(400);
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.D:
+                    me.player.moveRight(400);
+                    break;
+                case me.player.player.body.onFloor():
+                    break;
+                default:
+                    me.player.player.play('idle',true)
+                    break;
             }
         });
         this.input.keyboard.on('keyup', function(kevent)
         {
             switch (kevent.keyCode){
+                case Phaser.Input.Keyboard.KeyCodes.Z:
+
+                    me.player.player.play('idle',true)
+
+                    break;
+
+                case Phaser.Input.Keyboard.KeyCodes.S:
+                    me.player.stop();
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.Q:
+                    me.player.stop();
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.D:
+                    me.player.stop();
+                    break;
+
+                default:
+                    me.player.stop();
+                    break;
             }
 
 
         });
+
     }
 
     update() {
+
         this.player.cam.setX(this.player.player.x);
         this.player.cam.setY(this.player.player.y-125);
         this.player.mooveenemi();
-
+        this.three2.scrollFactorX=1.005;
+/**
         switch (true) {
 
             case (this.cursors.space.isDown || this.cursors.up.isDown) && this.player.player.body.onFloor():
@@ -157,6 +199,6 @@ class scene extends Phaser.Scene {
             default:
                 this.player.stop();
 
-        }
+        }      **/
     }
 }
