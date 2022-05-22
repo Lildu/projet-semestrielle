@@ -112,9 +112,7 @@ class scene extends Phaser.Scene {
                     tire=true;
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.Z:
-                    if  (me.player.player.body.onFloor()){
-                        me.player.jump()
-                    }
+
 
                     break;
 
@@ -122,10 +120,10 @@ class scene extends Phaser.Scene {
 
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.Q:
-                    me.player.moveLeft(400);
+
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.D:
-                    me.player.moveRight(400);
+
                     break;
                 case me.player.player.body.onFloor():
                     break;
@@ -160,6 +158,20 @@ class scene extends Phaser.Scene {
 
 
         });
+        this.input.mouse.disableContextMenu();
+        this.input.on('pointerup', function (pointer) {
+
+            if (pointer.leftButtonReleased())
+            {
+                console.log('Left Button was released');
+                me.player.tir(-1,0);
+            }
+            else if (pointer.rightButtonReleased())
+            {
+                console.log('Right Button was released');
+            }
+
+        });
 
     }
 
@@ -169,7 +181,7 @@ class scene extends Phaser.Scene {
         this.player.cam.setY(this.player.player.y-125);
         this.player.mooveenemi();
         this.three2.scrollFactorX=1.005;
-/**
+
         switch (true) {
 
             case (this.cursors.space.isDown || this.cursors.up.isDown) && this.player.player.body.onFloor():
@@ -199,6 +211,7 @@ class scene extends Phaser.Scene {
             default:
                 this.player.stop();
 
-        }      **/
+        }
+
     }
 }
