@@ -112,18 +112,19 @@ class Player {
             this.player.play('idle',true)
         }
     }
-    tir(v,b){
-
+    tir(){
+        let pointer =this.scene.input.activePointer;
         this.player.play('midle', true);
         this.balle = this.scene.physics.add.sprite(this.player.x, this.player.y,"square");
         this.balle.setDisplaySize(10,10);
-        this.scene.physics.add.overlap(this.balle, this.scene.enemi, null,this.enemi.destroy())
+        this.balle.setGravity(0);
+        this.scene.physics.add.overlap(this.balle, this.enemi,)
         this.scene.tweens.add({
             targets: this.balle,
-            x: (this.player.x+15000)*v,
-            y: (this.player.y+15000)*b,
-            duration: 10000,
-            ease: 'Power',
+            x: pointer.worldX,
+            y: pointer.worldY,
+            duration: 100,
+            ease: 'Each',
             repeat: 0,
             delay:0
         });
@@ -151,6 +152,12 @@ class Player {
     }
 
 
+    update(){
+        console.log(life)
+
+
     }
 
+
+    }
 

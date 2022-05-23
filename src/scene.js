@@ -164,7 +164,7 @@ class scene extends Phaser.Scene {
             if (pointer.leftButtonReleased())
             {
                 console.log('Left Button was released');
-                me.player.tir(-1,0);
+                me.player.tir();
             }
             else if (pointer.rightButtonReleased())
             {
