@@ -56,13 +56,22 @@ class Player {
 
         this.scene.physics.add.collider(this.player, this.scene.moves,this.force,null,this)
 
-
         this.enemi = this.scene.physics.add.sprite(0, 0,"enemi");
-        this.enemi.setGravity(-500);
-        this.enemi.setScale(0.2);
-        this.scene.physics.add.overlap(this.player, this.scene.enemi,this.lifelost(life))
+        this.enemi.setScale(0.2)
+        this.enemi.setGravity(0,-500)
+        this.enemi.setVelocity(1)
+
+
+
+
+
+        if(this.scene.key=false){
+            this.scene.physics.add.collider(this.player, this.scene.door);
+        }
 
         this.scene.physics.add.collider(this.player, this.scene.platforms);
+        this.scene.physics.add.collider(this.enemi, this.scene.platforms);
+
     }
     lifelost(life){
         life-=1;
@@ -73,7 +82,7 @@ class Player {
             targets: this.enemi,
             x: this.player.x,
             y: this.player.y,
-            duration: 10000,
+            duration: 4000,
             ease: 'Each',
             repeat: 0,
             delay:0
@@ -114,11 +123,25 @@ class Player {
     }
     tir(){
         let pointer =this.scene.input.activePointer;
+        this.point =this.scene.add.sprite(pointer.worldX, pointer.worldY,"square");
+        this.point.setDisplaySize(10,10);
+        this.point.setVisible(false)
+
+
+
         this.player.play('midle', true);
         this.balle = this.scene.physics.add.sprite(this.player.x, this.player.y,"square");
         this.balle.setDisplaySize(10,10);
-        this.balle.setGravity(0);
-        this.scene.physics.add.overlap(this.balle, this.enemi,)
+        this.balle.setGravity(0,-500);
+        this.balle.scene.physics.moveToObject(this.balle, this.point, 500);
+
+
+        this.scene.physics.add.collider(this.enemi, this.balle, this.enemidelete());
+
+        //this.scene.physics.add.overlap(this.balle, this.enemi,this.enemidelete(), null ,this)
+        //this.scene.physics.add.collider(this.balle, this.enemi, this.enemidelete())
+
+/**
         this.scene.tweens.add({
             targets: this.balle,
             x: pointer.worldX,
@@ -126,26 +149,25 @@ class Player {
             duration: 100,
             ease: 'Each',
             repeat: 0,
-            delay:0
+            delay:0,
         });
-        if(this.balle.y < this.player.y-500 ){
-
-            this.balle.destroy();
-        }
-        if(this.balle.y > this.player.y+500 ){
-
-            this.balle.destroy();
-        }
-        if(this.balle.x < this.player.x-1000 ){
-
-            this.balle.destroy();
-        }
-        if(this.balle.x > this.player.x+1000 ) {
-
-            this.balle.destroy();
-        }
+        if ((this.balle.x) !=
+            (this.player.x)){
+            this.balle.setVisible(false)
+        }**/
     }
 
+
+    checkBalle(){
+
+    }
+    enemidelete(){
+        console.log('delete')
+        this.enemi.destroy()
+        //this.enemi.setVisible(false)
+        //this.enemi.style.color = "rgb(255,0,0)"
+        //this.balle.setVisible(false)
+    }
 
     gravitychange(g){
         this.player.setGravityY(g);
@@ -153,8 +175,11 @@ class Player {
 
 
     update(){
+        //this.scene.physics.add.overlap(this.player, this.enemi.enemi,this.lifelost(life))
         console.log(life)
-
+        if (this.balle.x >=this.player.x+500 || this.balle.y>=this.player.y+500){
+            this.balle.setVisible(false)
+        }
 
     }
 

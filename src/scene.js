@@ -10,6 +10,9 @@ class scene extends Phaser.Scene {
         this.load.image('dude', 'assets/images/dude.png');
         this.load.image('square', 'assets/images/square.png');
         this.load.image('mouvable', 'assets/images/mouvable.png');
+        this.load.image('tube', 'assets/images/tube.png');
+        this.load.image('clefs', 'assets/images/Key.png');
+        this.load.image('doore', 'assets/images/door.png');
         this.load.image('enemi', 'assets/images/enemi.png');
 
 
@@ -27,8 +30,7 @@ class scene extends Phaser.Scene {
 
 
     create() {
-
-
+        let key=false;
 
         const backgroundImage = this.add.image(0, 0, 'background').setOrigin(0, 0);
         backgroundImage.setScale(1, 0.8);
@@ -52,7 +54,7 @@ class scene extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
 
-
+        this.flowers2 = map.createStaticLayer('flower2', tileset);
 /**
         this.mouvable = this.physics.add.group({
             allowGravity: false,
@@ -71,18 +73,56 @@ class scene extends Phaser.Scene {
         });
         map.getObjectLayer('Mouvable').objects.forEach((move) => {
             this.moveSprite = this.moves.create(move.x, move.y - move.height, 'mouvable').setOrigin(0);
+
+
         });
+
         this.physics.add.collider(this.moves, this.moveSprite)
         this.physics.add.collider(this.moves, this.platforms)
 
 
+
+
+        this.door = this.physics.add.group({
+            allowGravity: false,
+            immovable: true
+        });
+        map.getObjectLayer('door').objects.forEach((dooor) => {
+            this.doorSprite = this.door.create(dooor.x, dooor.y - dooor.height, 'doore').setOrigin(0);
+
+        });
+
+        this.clef = this.physics.add.group({
+            allowGravity: false,
+            immovable: true
+        });
+        map.getObjectLayer('clef').objects.forEach((clefe) => {
+            this.clefSprite = this.clef.create(clefe.x, clefe.y - clefe.height, 'clefs').setOrigin(0);
+
+        });
+
+
+
+        this.flowers = this.physics.add.group({
+            allowGravity: false,
+            immovable: true
+        });
+        map.getObjectLayer('flower').objects.forEach((flowe) => {
+            this.flowerSprite = this.flowers.create(flowe.x, flowe.y - flowe.height, 'tube').setOrigin(0);
+
+        });
+        this.fog = map.createStaticLayer('fog', tileset);
+
         this.initKeyboard();
         this.cameras.main.startFollow(this.player.cam,false);
         this.cameras.main.zoom= 1.5;
-        this.fog = map.createStaticLayer('fog', tileset);
-
+        this.physics.add.overlap(this.player.player, this.clef,this.addKey(),null,this)
     }
-
+    addKey(){
+        console.log('key')
+        this.key=true
+        //this.clef.setVisible(false)
+    }
     initKeyboard(){
         let tire=false;
         this.player = new Player(this)
@@ -100,6 +140,7 @@ class scene extends Phaser.Scene {
                 case Phaser.Input.Keyboard.KeyCodes.A:
                     console.log("oui")
                     me.player.gravitychange(500);
+                    this.moveSprite.setGravity(0,1000)
                     break;
 /**                case Phaser.Input.Keyboard.KeyCodes.D:
                     console.log("oui")
@@ -116,17 +157,7 @@ class scene extends Phaser.Scene {
 
                     break;
 
-                case Phaser.Input.Keyboard.KeyCodes.S:
 
-                    break;
-                case Phaser.Input.Keyboard.KeyCodes.Q:
-
-                    break;
-                case Phaser.Input.Keyboard.KeyCodes.D:
-
-                    break;
-                case me.player.player.body.onFloor():
-                    break;
                 default:
                     me.player.player.play('idle',true)
                     break;
@@ -141,15 +172,6 @@ class scene extends Phaser.Scene {
 
                     break;
 
-                case Phaser.Input.Keyboard.KeyCodes.S:
-                    me.player.stop();
-                    break;
-                case Phaser.Input.Keyboard.KeyCodes.Q:
-                    me.player.stop();
-                    break;
-                case Phaser.Input.Keyboard.KeyCodes.D:
-                    me.player.stop();
-                    break;
 
                 default:
                     me.player.stop();
@@ -179,9 +201,9 @@ class scene extends Phaser.Scene {
 
         this.player.cam.setX(this.player.player.x);
         this.player.cam.setY(this.player.player.y-125);
-        this.player.mooveenemi();
+        this.player.mooveenemi()
         this.three2.scrollFactorX=1.005;
-
+        this.player.checkBalle()
         switch (true) {
 
             case (this.cursors.space.isDown || this.cursors.up.isDown) && this.player.player.body.onFloor():
