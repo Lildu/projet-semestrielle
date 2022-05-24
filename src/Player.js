@@ -2,22 +2,34 @@ class Player {
 
 
     constructor(scene) {
+
+
+
+
+
+
+
+
         let life;
         life=10;
         console.log(life);
         this.scene=scene
         this.cameras=scene
+
+
+        //Création du player
         this.player = this.scene.physics.add.sprite(50, -300,"dude");
         //this.player.setBounce(0.1);
         this.player.setScale(0.3);
         this.player.setFlipX(true);
 
+        //Création d'un objet qui suit le joueur, pour manipuler facilement la caméra
         this.cam = this.scene.add.sprite(this.player.x, this.player.y+50,"square");
         this.cam.setScale(0.2)
         this.cam.setVisible(false)
 
 
-        this.player.setCollideWorldBounds(false);
+
 
 //          ANIMATION               //
         this.scene.anims.create({
@@ -51,26 +63,24 @@ class Player {
             repeat:-1,
         });
 
-
-
-
-        this.scene.physics.add.collider(this.player, this.scene.moves,this.force,null,this)
-
-        this.enemi = this.scene.physics.add.sprite(0, 0,"enemi");
+        // Création des enemis
+        this.enemi = this.scene.physics.add.sprite(500, 0,"enemi");
         this.enemi.setScale(0.2)
         this.enemi.setGravity(0,-500)
         this.enemi.setVelocity(1)
 
 
 
+        // COLIDER PLAYER //
+        this.player.setCollideWorldBounds(false);
 
-
-        if(this.scene.key=false){
-            this.scene.physics.add.collider(this.player, this.scene.door);
-        }
-
+        this.scene.physics.add.collider(this.player, this.scene.moves,this.force,null,this)
+        this.scene.physics.add.collider(this.player, this.scene.door);
         this.scene.physics.add.collider(this.player, this.scene.platforms);
         this.scene.physics.add.collider(this.enemi, this.scene.platforms);
+
+        this.scene.physics.add.overlap(this.scene.clefSprite, this.player, scene.addKey, null, this);
+        this.scene.physics.add.collider(this.enemi, this.player, this.lifelost, null, this);
 
     }
     lifelost(life){
@@ -136,37 +146,20 @@ class Player {
         this.balle.scene.physics.moveToObject(this.balle, this.point, 500);
 
 
-        this.scene.physics.add.collider(this.enemi, this.balle, this.enemidelete());
 
-        //this.scene.physics.add.overlap(this.balle, this.enemi,this.enemidelete(), null ,this)
+
+        this.scene.physics.add.overlap(this.balle, this.enemi,this.enemidelete, null ,this)
         //this.scene.physics.add.collider(this.balle, this.enemi, this.enemidelete())
 
-/**
-        this.scene.tweens.add({
-            targets: this.balle,
-            x: pointer.worldX,
-            y: pointer.worldY,
-            duration: 100,
-            ease: 'Each',
-            repeat: 0,
-            delay:0,
-        });
-        if ((this.balle.x) !=
-            (this.player.x)){
-            this.balle.setVisible(false)
-        }**/
     }
 
 
-    checkBalle(){
 
-    }
     enemidelete(){
         console.log('delete')
         this.enemi.destroy()
         //this.enemi.setVisible(false)
-        //this.enemi.style.color = "rgb(255,0,0)"
-        //this.balle.setVisible(false)
+
     }
 
     gravitychange(g){
@@ -175,8 +168,7 @@ class Player {
 
 
     update(){
-        //this.scene.physics.add.overlap(this.player, this.enemi.enemi,this.lifelost(life))
-        console.log(life)
+
         if (this.balle.x >=this.player.x+500 || this.balle.y>=this.player.y+500){
             this.balle.setVisible(false)
         }
