@@ -30,7 +30,7 @@ class scene extends Phaser.Scene {
 
 
     create() {
-        let key=0;
+
 
 
         const backgroundImage = this.add.image(0, 0, 'background').setOrigin(0, 0);
@@ -99,7 +99,6 @@ class scene extends Phaser.Scene {
         });
         map.getObjectLayer('clef').objects.forEach((clefe) => {
             this.clefSprite = this.clef.create(clefe.x, clefe.y - clefe.height, 'clefs').setOrigin(0);
-            this.clefSprite.setVisible(false)
 
         });
 
@@ -125,12 +124,7 @@ class scene extends Phaser.Scene {
 
 
     }
-    addKey(){
-        console.log('key')
-        this.key=1
-        console.log(this.key)
-        //this.clefSprite.disableBody(true,true)
-    }
+
     initKeyboard(){
         let tire=false;
         this.player = new Player(this)
@@ -151,7 +145,7 @@ class scene extends Phaser.Scene {
                     this.moveSprite.setGravity(0,1000)
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.Z:
-                    
+
                     break;
 
 
@@ -187,6 +181,7 @@ class scene extends Phaser.Scene {
             }
             else if (pointer.rightButtonReleased())
             {
+                me.player.gravitir()
                 console.log('Right Button was released');
             }
 
@@ -200,6 +195,7 @@ class scene extends Phaser.Scene {
         this.player.cam.setY(this.player.player.y-125);
         this.player.mooveenemi()
         this.three2.scrollFactorX=1.005;
+
         switch (true) {
 
             case (this.cursors.space.isDown || this.cursors.up.isDown) && this.player.player.body.onFloor():

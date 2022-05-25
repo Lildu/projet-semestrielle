@@ -3,6 +3,7 @@ class Player {
 
     constructor(scene) {
 
+        this.nbclef=0
 
 
 
@@ -75,12 +76,32 @@ class Player {
         this.player.setCollideWorldBounds(false);
 
         this.scene.physics.add.collider(this.player, this.scene.moves,this.force,null,this)
-        this.scene.physics.add.collider(this.player, this.scene.door);
+        this.scene.physics.add.collider(this.player, this.scene.door,this.checkDoor, null, this);
         this.scene.physics.add.collider(this.player, this.scene.platforms);
         this.scene.physics.add.collider(this.enemi, this.scene.platforms);
 
-        this.scene.physics.add.overlap(this.scene.clefSprite, this.player, scene.addKey, null, this);
+        this.scene.physics.add.overlap(this.player,this.scene.clefSprite, this.addKey, null, this);
         this.scene.physics.add.collider(this.enemi, this.player, this.lifelost, null, this);
+
+    }
+    checkDoor(player, door){
+        if (this.nbclef>0){
+            this.nbclef-=1;
+            console.log(this.nbclef)
+            door.destroy()
+        }
+        else{
+            console.log('il me manque une clef')
+        }
+    }
+
+    addKey(player, key){
+
+        console.log('key')
+        key.destroy();
+        this.nbclef+=1;
+        console.log(this.nbclef)
+        //this.clefSprite.disableBody(true,true)
 
     }
     lifelost(life){
@@ -145,15 +166,38 @@ class Player {
         this.balle.setGravity(0,-500);
         this.balle.scene.physics.moveToObject(this.balle, this.point, 500);
 
-
-
-
         this.scene.physics.add.overlap(this.balle, this.enemi,this.enemidelete, null ,this)
+        this.scene.physics.add.collider(this.balle, this.scene.moves,this.balledelete,null,this)
+        //this.scene.physics.add.collider(this.balle, this.enemi, this.enemidelete())
+
+    }
+    gravitir(){
+        let pointer =this.scene.input.activePointer;
+        this.point =this.scene.add.sprite(pointer.worldX, pointer.worldY,"square");
+        this.point.setDisplaySize(10,10);
+        this.point.setVisible(false)
+
+
+
+        this.player.play('midle', true);
+        this.balle = this.scene.physics.add.sprite(this.player.x, this.player.y,"square");
+        this.balle.setDisplaySize(10,10);
+        this.balle.setGravity(0,-500);
+        this.balle.scene.physics.moveToObject(this.balle, this.point, 500);
+
+        this.scene.physics.add.collider(this.balle, this.scene.moves, this.gravityEffect, null,this)
         //this.scene.physics.add.collider(this.balle, this.enemi, this.enemidelete())
 
     }
 
+    gravityEffect(balle, moves){
+        balle.destroy()
+        moves.setGravityY(-610)
 
+    }
+    balledelete(balle){
+        balle.destroy()
+    }
 
     enemidelete(){
         console.log('delete')
@@ -168,10 +212,11 @@ class Player {
 
 
     update(){
-
+        console.log(this.player.x)
         if (this.balle.x >=this.player.x+500 || this.balle.y>=this.player.y+500){
             this.balle.setVisible(false)
         }
+
 
     }
 
