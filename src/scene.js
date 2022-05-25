@@ -14,6 +14,8 @@ class scene extends Phaser.Scene {
         this.load.image('clefs', 'assets/images/Key.png');
         this.load.image('doore', 'assets/images/door.png');
         this.load.image('enemi', 'assets/images/enemi.png');
+        this.load.image('repere0', 'assets/images/repere-0.png');
+        this.load.image('repere1', 'assets/images/repere-1.png');
 
 
         this.load.spritesheet('walk', 'assets/images/tilesheet/tilesheet-walk.png',{ frameWidth: 512, frameHeight: 512 });
@@ -82,7 +84,14 @@ class scene extends Phaser.Scene {
         this.physics.add.collider(this.moves, this.platforms)
 
 
-
+        this.saave = this.physics.add.group({
+            allowGravity: false,
+            immovable: true
+        });
+        map.getObjectLayer('save').objects.forEach((saves) => {
+            this.saveSprite = this.saave.create(saves.x-100, saves.y - saves.height, 'repere0').setOrigin(0);
+            this.saveSprite.setScale(0.1)
+        });
 
         this.door = this.physics.add.group({
             allowGravity: false,

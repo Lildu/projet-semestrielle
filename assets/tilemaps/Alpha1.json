@@ -471,18 +471,6 @@
                 {
                  "gid":69,
                  "height":64,
-                 "id":59,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":426.666666666667,
-                 "y":857.333333333333
-                }, 
-                {
-                 "gid":69,
-                 "height":64,
                  "id":60,
                  "name":"",
                  "rotation":0,
@@ -658,6 +646,53 @@
         }, 
         {
          "draworder":"topdown",
+         "id":19,
+         "name":"save",
+         "objects":[
+                {
+                 "gid":36,
+                 "height":64,
+                 "id":76,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":254.666666666667,
+                 "y":752
+                }, 
+                {
+                 "gid":36,
+                 "height":64,
+                 "id":77,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":4862.66666666667,
+                 "y":758.666666666667
+                }, 
+                {
+                 "gid":36,
+                 "height":64,
+                 "id":79,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":11848,
+                 "y":882.666666666667
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":6,
          "name":"Mouvable",
          "objects":[
@@ -727,8 +762,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":19,
- "nextobjectid":76,
+ "nextlayerid":20,
+ "nextobjectid":80,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",

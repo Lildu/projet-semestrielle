@@ -3,23 +3,23 @@ class Player {
 
     constructor(scene) {
 
+
+
+        //intialisation variable du player
         this.nbclef=0
+        this.life =100
 
 
 
 
 
-
-
-        let life;
-        life=10;
-        console.log(life);
+        console.log(this.life);
         this.scene=scene
         this.cameras=scene
 
 
         //Création du player
-        this.player = this.scene.physics.add.sprite(50, -300,"dude");
+        this.player = this.scene.physics.add.sprite(50, -200,"dude");
         //this.player.setBounce(0.1);
         this.player.setScale(0.3);
         this.player.setFlipX(true);
@@ -29,7 +29,8 @@ class Player {
         this.cam.setScale(0.2)
         this.cam.setVisible(false)
 
-
+        this.currentSaveX = this.player.x
+        this.currentSaveY = this.player.y
 
 
 //          ANIMATION               //
@@ -79,11 +80,25 @@ class Player {
         this.scene.physics.add.collider(this.player, this.scene.door,this.checkDoor, null, this);
         this.scene.physics.add.collider(this.player, this.scene.platforms);
         this.scene.physics.add.collider(this.enemi, this.scene.platforms);
+        this.scene.physics.add.collider(this.player, this.scene.saave, this.actifSave,null,this);
+
+
 
         this.scene.physics.add.overlap(this.player,this.scene.clefSprite, this.addKey, null, this);
         this.scene.physics.add.collider(this.enemi, this.player, this.lifelost, null, this);
 
     }
+    actifSave(player, save){
+        save.destroy()
+        this.actifRepere =this.scene.add.sprite(save.x+95, save.y+54,"repere1");
+
+        this.actifRepere.setScale(0.1)
+
+        this.currentSaveX = player.x
+        this.currentSaveY = player.y
+
+    }
+
     checkDoor(player, door){
         if (this.nbclef>0){
             this.nbclef-=1;
@@ -104,10 +119,26 @@ class Player {
         //this.clefSprite.disableBody(true,true)
 
     }
-    lifelost(life){
-        life-=1;
-        console.log(life);
+    lifelost(enemi,player){
+
+        if (this.life<0){
+            console.log('MUERTE!')
+            this.resetlife()
+        }
+        else{
+            this.life-=1;
+            console.log(this.life);
+        }
     }
+    resetlife(){
+        this.player.x=this.currentSaveX
+        this.player.y=this.currentSaveY
+        this.life=100
+    }
+
+
+
+
     mooveenemi(){
         this.scene.tweens.add({
             targets: this.enemi,
@@ -119,6 +150,7 @@ class Player {
             delay:0
         });
     }
+
     force(player,moves){
         if(player.body.touching.left || player.body.touching.right) {
             moves.setImmovable(false)
