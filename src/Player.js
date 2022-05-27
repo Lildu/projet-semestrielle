@@ -8,7 +8,7 @@ class Player {
         //intialisation variable du player
         this.nbclef=0
         this.life =100
-
+        this.repere=0
 
 
 
@@ -66,10 +66,6 @@ class Player {
         });
 
         // Création des enemis
-        this.enemi = this.scene.physics.add.sprite(500, 0,"enemi");
-        this.enemi.setScale(0.2)
-        this.enemi.setGravity(0,-500)
-        this.enemi.setVelocity(1)
 
 
 
@@ -79,15 +75,17 @@ class Player {
         this.scene.physics.add.collider(this.player, this.scene.moves,this.force,null,this)
         this.scene.physics.add.collider(this.player, this.scene.door,this.checkDoor, null, this);
         this.scene.physics.add.collider(this.player, this.scene.platforms);
-        this.scene.physics.add.collider(this.enemi, this.scene.platforms);
+
         this.scene.physics.add.collider(this.player, this.scene.saave, this.actifSave,null,this);
 
 
 
         this.scene.physics.add.overlap(this.player,this.scene.clefSprite, this.addKey, null, this);
-        this.scene.physics.add.collider(this.enemi, this.player, this.lifelost, null, this);
+
 
     }
+
+
     actifSave(player, save){
         save.destroy()
         this.actifRepere =this.scene.add.sprite(save.x+95, save.y+54,"repere1");
@@ -96,6 +94,20 @@ class Player {
 
         this.currentSaveX = player.x
         this.currentSaveY = player.y
+        this.repere +=1;
+        console.log(this.repere)
+        this.creationenemi()
+    }
+    creationenemi(){
+        if (this.repere===2){
+            console.log("enemi")
+            this.enemi = this.scene.physics.add.sprite(500, 0,"enemi");
+            this.enemi.setScale(0.2)
+            this.enemi.setGravity(0,-500)
+            this.enemi.setVelocity(1)
+            this.scene.physics.add.collider(this.enemi, this.scene.platforms);
+            this.scene.physics.add.collider(this.enemi, this.player, this.lifelost, null, this);
+        }
 
     }
 
