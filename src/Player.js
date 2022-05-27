@@ -9,7 +9,7 @@ class Player {
         this.nbclef=0
         this.life =100
         this.repere=0
-
+        this.lock=0
 
 
 
@@ -19,7 +19,7 @@ class Player {
 
 
         //Création du player
-        this.player = this.scene.physics.add.sprite(10000, -200,"dude");
+        this.player = this.scene.physics.add.sprite(0, 500,"dude");
         //this.player.setBounce(0.1);
         this.player.setScale(0.3);
         this.player.setFlipX(true);
@@ -75,8 +75,9 @@ class Player {
         this.scene.physics.add.collider(this.player, this.scene.moves,this.force,null,this)
         this.scene.physics.add.collider(this.player, this.scene.door,this.checkDoor, null, this);
         this.scene.physics.add.collider(this.player, this.scene.platforms);
-        this.scene.physics.add.collider(this.player, this.scene.saave, this.actifSave,null,this);
+        this.scene.physics.add.overlap(this.player, this.scene.saave, this.actifSave,null,this);
         this.scene.physics.add.overlap(this.player,this.scene.clefSprite, this.addKey, null, this);
+        this.scene.physics.add.overlap(this.player,this.scene.flowers, this.soins, null, this);
 
 
     }
@@ -103,12 +104,32 @@ class Player {
                 png.setTexture('dude')
                 console.log("AH te voila étranger")
             }, this);
-
         }
-
     }
 
+    soins(player, flower){
+        if (this.life<150){
+            this.scene.input.keyboard.on('keydown-ENTER', function () {
+                this.life=150;
+                console.log("OH oui le soins")
+                console.log(this.life)
+                //flower.play('aniation tubes)
+                flower.destroy()
+            }, this);
+        }
+        if (this.life=150){
+            this.scene.input.keyboard.on('keydown-ENTER', function () {
+                console.log("OH oui le soins")
+                console.log(this.life)
+                //flower.play('aniation tubes)
+                flower.destroy()
+            }, this);
+        }
+        else{
 
+            //flower.play('aniation tubes)
+        }
+    }
 
     // Création des enemis
     creationenemi(){
