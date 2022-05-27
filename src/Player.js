@@ -19,7 +19,7 @@ class Player {
 
 
         //Création du player
-        this.player = this.scene.physics.add.sprite(50, -200,"dude");
+        this.player = this.scene.physics.add.sprite(10000, -200,"dude");
         //this.player.setBounce(0.1);
         this.player.setScale(0.3);
         this.player.setFlipX(true);
@@ -65,26 +65,64 @@ class Player {
             repeat:-1,
         });
 
-        // Création des enemis
 
+        // CREATION PNG //
+        this.creationPNG()
 
 
         // COLIDER PLAYER //
         this.player.setCollideWorldBounds(false);
-
         this.scene.physics.add.collider(this.player, this.scene.moves,this.force,null,this)
         this.scene.physics.add.collider(this.player, this.scene.door,this.checkDoor, null, this);
         this.scene.physics.add.collider(this.player, this.scene.platforms);
-
         this.scene.physics.add.collider(this.player, this.scene.saave, this.actifSave,null,this);
-
-
-
         this.scene.physics.add.overlap(this.player,this.scene.clefSprite, this.addKey, null, this);
 
 
     }
 
+
+    // Création des PNG
+    creationPNG(){
+
+        console.log("PNG1")
+        this.PNG1 = this.scene.physics.add.sprite(10000, 350,"dude");
+        this.PNG1.setScale(0.3)
+        this.PNG1.setAllowGravity=false
+        this.PNG1.setImmovable(true)
+        this.scene.physics.add.collider(this.PNG1, this.scene.platforms);
+        this.scene.physics.add.overlap(this.PNG1, this.player, this.dialoguePNG, null, this);
+
+    }
+    dialoguePNG(png, player){
+        if(png===this.PNG1){
+            png.setTexture('dude')
+            png.setAllowGravity=false
+            png.setImmovable(true)
+            this.scene.input.keyboard.on('keydown-ENTER', function () {
+                png.setTexture('dude')
+                console.log("AH te voila étranger")
+            }, this);
+
+        }
+
+    }
+
+
+
+    // Création des enemis
+    creationenemi(){
+        if (this.repere===2){
+            console.log("enemi")
+            this.enemi = this.scene.physics.add.sprite(500, 0,"enemi");
+            this.enemi.setScale(0.2)
+            this.enemi.setGravity(0,-500)
+            this.enemi.setVelocity(1)
+            this.scene.physics.add.collider(this.enemi, this.scene.platforms);
+            this.scene.physics.add.collider(this.enemi, this.player, this.lifelost, null, this);
+        }
+
+    }
 
     actifSave(player, save){
         save.destroy()
@@ -98,18 +136,7 @@ class Player {
         console.log(this.repere)
         this.creationenemi()
     }
-    creationenemi(){
-        if (this.repere===2){
-            console.log("enemi")
-            this.enemi = this.scene.physics.add.sprite(500, 0,"enemi");
-            this.enemi.setScale(0.2)
-            this.enemi.setGravity(0,-500)
-            this.enemi.setVelocity(1)
-            this.scene.physics.add.collider(this.enemi, this.scene.platforms);
-            this.scene.physics.add.collider(this.enemi, this.player, this.lifelost, null, this);
-        }
 
-    }
 
     checkDoor(player, door){
         if (this.nbclef>0){

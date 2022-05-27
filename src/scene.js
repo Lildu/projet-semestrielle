@@ -151,7 +151,7 @@ class scene extends Phaser.Scene {
                 case Phaser.Input.Keyboard.KeyCodes.A:
                     console.log("oui")
                     me.player.gravitychange(500);
-                    this.moveSprite.setGravity(0,1000)
+                    me.moveSprite.setGravity(0,1000)
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.Z:
 
