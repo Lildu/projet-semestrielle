@@ -36,16 +36,18 @@ class scene extends Phaser.Scene {
 
 
 
-        const backgroundImage = this.add.image(0, 0, 'background').setOrigin(0, 0);
-        backgroundImage.setScale(1, 0.8);
+        const backgroundImage = this.add.image(-1000, -3000, 'background').setOrigin(0, 0);
+        backgroundImage.setScale(7.6, 2.5);
         const map = this.make.tilemap({key: 'map'});
 
         const tileset = map.addTilesetImage('Alpha_test1', 'tiles');
-
+        this.three3 = map.createStaticLayer('three3', tileset);
         this.three2 = map.createStaticLayer('three2', tileset);
 
 
         this.three = map.createStaticLayer('three', tileset);
+
+        this.foog2 = map.createStaticLayer('fog2', tileset);
 
 
         this.backfirst = map.createStaticLayer('back-first', tileset);
@@ -55,12 +57,12 @@ class scene extends Phaser.Scene {
 
         this.platforms = map.createStaticLayer('Sol', tileset);
 
-
+        this.flowers2 = map.createStaticLayer('flower2', tileset);
         this.platforms.setCollisionByExclusion(-1, true);
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        this.flowers3 = map.createStaticLayer('flower3', tileset);
 
-        this.flowers2 = map.createStaticLayer('flower2', tileset);
 
 
 
@@ -132,11 +134,28 @@ class scene extends Phaser.Scene {
         this.cameras.main.zoom= 1.5;
         //this.physics.add.overlap(this.player.player, this.clef,this.addKey(),null,this)
 
+        this.fog = map.createStaticLayer('fog', tileset);
 
         this.froont = map.createStaticLayer('front', tileset);
         this.froont2 = map.createStaticLayer('front2', tileset);
 
-        this.fog = map.createStaticLayer('fog', tileset);
+
+
+        this.froont3 = map.createStaticLayer('front3', tileset);
+        this.froont4 = map.createStaticLayer('front4', tileset);
+
+        /**
+        this.particles = this.add.particles('leafemit');
+        this.particles.createEmitter({
+            follow:this.bonus,
+            angle: { min: 1, max: 360 },
+            scale: {start: 0.01, end: 0.1},
+            speed: 10,
+            gravityY: -1,
+            lifespan: { min: 1, max: 200 },
+            blendMode: 'ADD',
+            alpha:1,
+        });**/
 
     }
 
@@ -210,6 +229,7 @@ class scene extends Phaser.Scene {
         this.player.cam.setY(this.player.player.y-125);
         this.player.mooveenemi()
         this.three2.scrollFactorX=1.005;
+        this.three3.scrollFactorX=1.05;
         this.froont.scrollFactorX=1.001;
         this.froont2.scrollFactorX=1.005;
 

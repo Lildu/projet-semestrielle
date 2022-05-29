@@ -19,7 +19,7 @@ class Player {
 
 
         //Création du player
-        this.player = this.scene.physics.add.sprite(0, -1900,"dude");
+        this.player = this.scene.physics.add.sprite(0, -1000,"dude");
 
         //this.player.setBounce(0.1);
         this.player.setScale(0.3);
@@ -77,7 +77,7 @@ class Player {
         this.scene.physics.add.collider(this.player, this.scene.door,this.checkDoor, null, this);
         this.scene.physics.add.collider(this.player, this.scene.platforms);
         this.scene.physics.add.overlap(this.player, this.scene.saave, this.actifSave,null,this);
-        this.scene.physics.add.overlap(this.player,this.scene.clefSprite, this.addKey, null, this);
+        this.scene.physics.add.overlap(this.player,this.scene.clef, this.addKey, null, this);
         this.scene.physics.add.overlap(this.player,this.scene.flowers, this.soins, null, this);
 
 
@@ -137,7 +137,8 @@ class Player {
             this.life=150
             console.log("OH oui le soins")
             console.log(this.life)
-            flower.destroy()
+            flower.disableBody()
+            flower.setTexture('')
             /**this.scene.input.keyboard.on('keydown-ENTER', function () {
                 this.life=150;
                 console.log("OH oui le soins")
@@ -169,7 +170,7 @@ class Player {
     creationenemi(){
         if (this.repere===2){
             console.log("enemi")
-            this.enemi = this.scene.physics.add.sprite(500, 0,"enemi");
+            this.enemi = this.scene.physics.add.sprite(5000, 0,"enemi");
             this.enemi.setScale(0.2)
             this.enemi.setGravity(0,-500)
             this.enemi.setVelocity(1)
@@ -180,11 +181,14 @@ class Player {
     }
 
     actifSave(player, save){
-        save.destroy()
+      //  save.destroy()
+        save.setTexture("repere1")
+        save.disableBody()
+        /**
         this.actifRepere =this.scene.add.sprite(save.x+95, save.y+54,"repere1");
 
         this.actifRepere.setScale(0.1)
-
+**/
         this.currentSaveX = player.x
         this.currentSaveY = player.y
         this.repere +=1;
