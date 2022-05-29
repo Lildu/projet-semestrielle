@@ -294,7 +294,7 @@ class Player {
         this.balle = this.scene.physics.add.sprite(this.player.x, this.player.y,"square");
         this.balle.setDisplaySize(10,10);
         this.balle.setGravity(0,-500);
-        this.balle.scene.physics.moveToObject(this.balle, this.point, 500);
+        this.balle.scene.physics.moveToObject(this.balle, this.point, 1000);
 
         this.scene.physics.add.overlap(this.balle, this.enemi,this.enemidelete, null ,this)
         this.scene.physics.add.collider(this.balle, this.scene.moves,this.balledelete,null,this)
@@ -325,8 +325,9 @@ class Player {
         moves.setGravityY(-610)
 
     }
-    balledelete(balle){
+    balledelete(balle,moves){
         balle.destroy()
+        moves.setGravityY(500)
     }
 
     enemidelete(){
