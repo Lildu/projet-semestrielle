@@ -5,7 +5,7 @@ class scene extends Phaser.Scene {
         this.load.image('spike', 'assets/images/spike.png');
         // At last image must be loaded with its JSON
         this.load.atlas('player', 'assets/images/kenney_player.png', 'assets/images/kenney_player_atlas.json');
-        this.load.image('tiles', 'assets/tilesets/platformPack_tilesheet.png');
+        this.load.image('tiles', 'assets/tilesets/platformPack_tilesheet3.png');
 
         this.load.image('dude', 'assets/images/dude.png');
         this.load.image('square', 'assets/images/square.png');
@@ -16,6 +16,7 @@ class scene extends Phaser.Scene {
         this.load.image('enemi', 'assets/images/enemi.png');
         this.load.image('repere0', 'assets/images/repere-0.png');
         this.load.image('repere1', 'assets/images/repere-1.png');
+        this.load.image('PNG', 'assets/images/PNG.png');
 
 
         this.load.spritesheet('walk', 'assets/images/tilesheet/tilesheet-walk.png',{ frameWidth: 512, frameHeight: 512 });
@@ -48,6 +49,8 @@ class scene extends Phaser.Scene {
 
 
         this.backfirst = map.createStaticLayer('back-first', tileset);
+        this.lighte = map.createStaticLayer('light', tileset);
+
 
 
         this.platforms = map.createStaticLayer('Sol', tileset);
@@ -58,6 +61,9 @@ class scene extends Phaser.Scene {
 
 
         this.flowers2 = map.createStaticLayer('flower2', tileset);
+
+
+
 /**
         this.mouvable = this.physics.add.group({
             allowGravity: false,
@@ -112,17 +118,14 @@ class scene extends Phaser.Scene {
         });
 
         //this.physics.add.overlap(this.clefSprite, this.player.player, this.addKey(), null, this);
-
         this.flowers = this.physics.add.group({
             allowGravity: false,
             immovable: true
         });
         map.getObjectLayer('flower').objects.forEach((flowe) => {
-            this.flowerSprite = this.flowers.create(flowe.x, flowe.y - flowe.height, 'tube').setOrigin(0);
+            this.flowerSprite = this.flowers.create(flowe.x, (flowe.y - flowe.height)-30, 'tube').setOrigin(0);
 
         });
-
-        this.fog = map.createStaticLayer('fog', tileset);
 
         this.initKeyboard();
         this.cameras.main.startFollow(this.player.cam,false);
@@ -130,7 +133,10 @@ class scene extends Phaser.Scene {
         //this.physics.add.overlap(this.player.player, this.clef,this.addKey(),null,this)
 
 
+        this.froont = map.createStaticLayer('front', tileset);
+        this.froont2 = map.createStaticLayer('front2', tileset);
 
+        this.fog = map.createStaticLayer('fog', tileset);
 
     }
 
@@ -204,6 +210,8 @@ class scene extends Phaser.Scene {
         this.player.cam.setY(this.player.player.y-125);
         this.player.mooveenemi()
         this.three2.scrollFactorX=1.005;
+        this.froont.scrollFactorX=1.001;
+        this.froont2.scrollFactorX=1.005;
 
         switch (true) {
 

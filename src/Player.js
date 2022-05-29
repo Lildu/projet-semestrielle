@@ -9,7 +9,7 @@ class Player {
         this.nbclef=0
         this.life =100
         this.repere=0
-        this.lock=0
+        this.lock=false
 
 
 
@@ -19,7 +19,8 @@ class Player {
 
 
         //Création du player
-        this.player = this.scene.physics.add.sprite(0, 500,"dude");
+        this.player = this.scene.physics.add.sprite(0, -1900,"dude");
+
         //this.player.setBounce(0.1);
         this.player.setScale(0.3);
         this.player.setFlipX(true);
@@ -87,17 +88,41 @@ class Player {
     creationPNG(){
 
         console.log("PNG1")
-        this.PNG1 = this.scene.physics.add.sprite(10000, 350,"dude");
-        this.PNG1.setScale(0.3)
+        this.PNG1 = this.scene.physics.add.sprite(14000, 0,"PNG");
+        this.PNG1.setScale(0.9)
         this.PNG1.setAllowGravity=false
         this.PNG1.setImmovable(true)
         this.scene.physics.add.collider(this.PNG1, this.scene.platforms);
-        this.scene.physics.add.overlap(this.PNG1, this.player, this.dialoguePNG, null, this);
+        this.scene.tweens.add({
+            targets: this.PNG1,
+            x: '-=450',
+            duration: 10000,
+            ease: 'linear',
+            yoyo: true,
+            repeat: -1,
+            delay: 1000,
+            flipX: true
+        });
+
+
+        this.PNG2 = this.scene.physics.add.sprite(18000, 350,"PNG");
+        this.PNG2.setScale(0.9)
+        this.PNG2.setAllowGravity=false
+        this.PNG2.setImmovable(true)
+        this.scene.physics.add.collider(this.PNG2, this.scene.platforms);
+        this.scene.physics.add.overlap(this.PNG2, this.player, this.dialoguePNG, null, this);
+        this.PNG3 = this.scene.physics.add.sprite(19000, 350,"PNG");
+        this.PNG3.setScale(0.9)
+        this.PNG3.setFlipX(true)
+        this.PNG3.setAllowGravity=false
+        this.PNG3.setImmovable(true)
+        this.scene.physics.add.collider(this.PNG3, this.scene.platforms);
+        this.scene.physics.add.overlap(this.PNG3, this.player, this.dialoguePNG, null, this);
 
     }
     dialoguePNG(png, player){
         if(png===this.PNG1){
-            png.setTexture('dude')
+            png.setTexture('PNG')
             png.setAllowGravity=false
             png.setImmovable(true)
             this.scene.input.keyboard.on('keydown-ENTER', function () {
@@ -109,22 +134,31 @@ class Player {
 
     soins(player, flower){
         if (this.life<150){
-            this.scene.input.keyboard.on('keydown-ENTER', function () {
+            this.life=150
+            console.log("OH oui le soins")
+            console.log(this.life)
+            flower.destroy()
+            /**this.scene.input.keyboard.on('keydown-ENTER', function () {
                 this.life=150;
                 console.log("OH oui le soins")
                 console.log(this.life)
                 //flower.play('aniation tubes)
                 flower.destroy()
-            }, this);
+            }, this);**/
+
         }
         if (this.life=150){
+            console.log("j'ai le max mon frérot")
+            console.log(this.life)
+            /**
             this.scene.input.keyboard.on('keydown-ENTER', function () {
-                console.log("OH oui le soins")
+                console.log("j'ai le max mon frérot")
                 console.log(this.life)
                 //flower.play('aniation tubes)
                 flower.destroy()
-            }, this);
+            }, this);**/
         }
+
         else{
 
             //flower.play('aniation tubes)
