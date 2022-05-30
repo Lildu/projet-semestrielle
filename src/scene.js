@@ -17,6 +17,7 @@ class scene extends Phaser.Scene {
         this.load.image('repere0', 'assets/images/repere-0.png');
         this.load.image('repere1', 'assets/images/repere-1.png');
         this.load.image('PNG', 'assets/images/PNG.png');
+        this.load.image('sage', 'assets/images/sage.png');
 
 
         this.load.spritesheet('walk', 'assets/images/tilesheet/tilesheet-walk.png',{ frameWidth: 512, frameHeight: 512 });
@@ -119,7 +120,14 @@ class scene extends Phaser.Scene {
 
         });
 
-        //this.physics.add.overlap(this.clefSprite, this.player.player, this.addKey(), null, this);
+
+
+        this.initKeyboard();
+        this.cameras.main.startFollow(this.player.cam,false);
+        this.cameras.main.zoom= 1.5;
+        //this.physics.add.overlap(this.player.player, this.clef,this.addKey(),null,this)
+        this.solee = map.createStaticLayer('sol2', tileset);
+
         this.flowers = this.physics.add.group({
             allowGravity: false,
             immovable: true
@@ -129,16 +137,13 @@ class scene extends Phaser.Scene {
 
         });
 
-        this.initKeyboard();
-        this.cameras.main.startFollow(this.player.cam,false);
-        this.cameras.main.zoom= 1.5;
-        //this.physics.add.overlap(this.player.player, this.clef,this.addKey(),null,this)
 
         this.fog = map.createStaticLayer('fog', tileset);
 
+
         this.froont = map.createStaticLayer('front', tileset);
         this.froont2 = map.createStaticLayer('front2', tileset);
-
+        //this.physics.add.overlap(this.clefSprite, this.player.player, this.addKey(), null, this);
 
 
         this.froont3 = map.createStaticLayer('front3', tileset);
@@ -229,7 +234,7 @@ class scene extends Phaser.Scene {
         this.player.cam.setY(this.player.player.y-125);
         this.player.mooveenemi()
         this.three2.scrollFactorX=1.005;
-        this.three3.scrollFactorX=1.05;
+        this.three3.scrollFactorX=1.005;
         this.froont.scrollFactorX=1.001;
         this.froont2.scrollFactorX=1.005;
 

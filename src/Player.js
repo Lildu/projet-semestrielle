@@ -17,9 +17,9 @@ class Player {
         this.scene=scene
         this.cameras=scene
 
-
+        this.sage = this.scene.physics.add.sprite(18500, 350,"sage");
         //Création du player
-        this.player = this.scene.physics.add.sprite(0, -1000,"dude");
+        this.player = this.scene.physics.add.sprite(18500, 350,"dude");
 
         //this.player.setBounce(0.1);
         this.player.setScale(0.3);
@@ -118,7 +118,12 @@ class Player {
         this.PNG3.setImmovable(true)
         this.scene.physics.add.collider(this.PNG3, this.scene.platforms);
         this.scene.physics.add.overlap(this.PNG3, this.player, this.dialoguePNG, null, this);
+        this.scene.physics.add.collider(this.scene.moves, this.scene.platforms)
 
+        this.sage.setScale(1.6)
+
+        this.scene.physics.add.overlap(this.sage, this.player, this.dialoguesage, null, this);
+        this.scene.physics.add.collider(this.sage, this.scene.platforms)
     }
     dialoguePNG(png, player){
         if(png===this.PNG1){
@@ -128,6 +133,17 @@ class Player {
             this.scene.input.keyboard.on('keydown-ENTER', function () {
                 png.setTexture('dude')
                 console.log("AH te voila étranger")
+            }, this);
+        }
+    }
+    dialoguesage(png, player){
+        if(png===this.PNG1){
+            png.setTexture('PNG')
+            png.setAllowGravity=false
+            png.setImmovable(true)
+            this.scene.input.keyboard.on('keydown-ENTER', function () {
+                png.setTexture('dude')
+                console.log("étranger tu vas être notre sauveur passe cette épreuve et bas le gardien en haut de cette tour, et tu trouveras ce que tu cherche.")
             }, this);
         }
     }
@@ -327,7 +343,7 @@ class Player {
     }
     balledelete(balle,moves){
         balle.destroy()
-        moves.setGravityY(500)
+        moves.setGravityY(1)
     }
 
     enemidelete(){

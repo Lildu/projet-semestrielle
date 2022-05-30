@@ -1,4 +1,0 @@
-class Enemi{
-    constructor(scene) {
-    }
-}
