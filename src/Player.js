@@ -19,7 +19,7 @@ class Player {
 
         this.sage = this.scene.physics.add.sprite(18500, 350,"sage");
         //Création du player
-        this.player = this.scene.physics.add.sprite(18500, 350,"dude");
+        this.player = this.scene.physics.add.sprite(0, 0,"dude");
 
         //this.player.setBounce(0.1);
         this.player.setScale(0.3);
