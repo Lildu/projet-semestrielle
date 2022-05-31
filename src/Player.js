@@ -111,11 +111,32 @@ class Player {
         this.PNG2.setImmovable(true)
         this.scene.physics.add.collider(this.PNG2, this.scene.platforms);
         this.scene.physics.add.overlap(this.PNG2, this.player, this.dialoguePNG, null, this);
+        this.scene.tweens.add({
+            targets: this.PNG2,
+            x: '-=450',
+            duration: 10000,
+            ease: 'linear',
+            yoyo: true,
+            repeat: -1,
+            delay: 1000,
+            flipX: true
+        });
+
         this.PNG3 = this.scene.physics.add.sprite(19000, 350,"PNG");
         this.PNG3.setScale(0.9)
-        this.PNG3.setFlipX(true)
+        this.PNG3.setFlipX(false)
         this.PNG3.setAllowGravity=false
         this.PNG3.setImmovable(true)
+        this.scene.tweens.add({
+            targets: this.PNG3,
+            x: '-=450',
+            duration: 10000,
+            ease: 'linear',
+            yoyo: true,
+            repeat: -1,
+            delay: 1000,
+            flipX: true
+        });
         this.scene.physics.add.collider(this.PNG3, this.scene.platforms);
         this.scene.physics.add.overlap(this.PNG3, this.player, this.dialoguePNG, null, this);
         this.scene.physics.add.collider(this.scene.moves, this.scene.platforms)

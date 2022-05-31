@@ -42,6 +42,12 @@ class scene extends Phaser.Scene {
         const map = this.make.tilemap({key: 'map'});
 
         const tileset = map.addTilesetImage('Alpha_test1', 'tiles');
+
+        this.back2 = map.createStaticLayer('back2', tileset);
+        this.foog3 = map.createStaticLayer('fog3',tileset)
+        this.back3 = map.createStaticLayer('back3', tileset);
+
+
         this.three3 = map.createStaticLayer('three3', tileset);
         this.three2 = map.createStaticLayer('three2', tileset);
 
@@ -58,7 +64,6 @@ class scene extends Phaser.Scene {
 
         this.platforms = map.createStaticLayer('Sol', tileset);
 
-        this.flowers2 = map.createStaticLayer('flower2', tileset);
         this.platforms.setCollisionByExclusion(-1, true);
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -125,6 +130,8 @@ class scene extends Phaser.Scene {
         this.initKeyboard();
         this.cameras.main.startFollow(this.player.cam,false);
         this.cameras.main.zoom= 1.5;
+
+        this.flowers2 = map.createStaticLayer('flower2', tileset);
         //this.physics.add.overlap(this.player.player, this.clef,this.addKey(),null,this)
         this.solee = map.createStaticLayer('sol2', tileset);
 
@@ -233,10 +240,13 @@ class scene extends Phaser.Scene {
         this.player.cam.setX(this.player.player.x);
         this.player.cam.setY(this.player.player.y-125);
         this.player.mooveenemi()
+
+        this.back2.scrollFactorX=1.05;
+        //this.foog3.scrollFactorX=1.1;
+        this.back3.scrollFactorX=1.05;
+
         this.three2.scrollFactorX=1.005;
         this.three3.scrollFactorX=1.005;
-        this.froont.scrollFactorX=1.001;
-        this.froont2.scrollFactorX=1.005;
 
         switch (true) {
 
