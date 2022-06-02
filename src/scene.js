@@ -5,6 +5,19 @@ class scene extends Phaser.Scene {
     }
 
     preload() {
+
+        this.load.audio('grotte','assets/son/grotte.wav');
+        this.load.audio('soin','assets/son/soin.wav');
+        this.load.audio('tir','assets/son/tir.wav');
+        this.load.audio('tir2','assets/son/tir2.wav');
+        this.load.audio('forest','assets/son/forest.wav');
+        this.load.audio('pas','assets/son/pas.wav');
+        this.load.audio('pas-int','assets/son/pas-int.wav');
+        this.load.audio('repere','assets/son/repere.wav');
+
+
+
+
         this.load.image('background', 'assets/images/background.png');
         this.load.image('spike', 'assets/images/spike.png');
         // At last image must be loaded with its JSON
@@ -14,6 +27,7 @@ class scene extends Phaser.Scene {
         this.load.image('dude', 'assets/images/dude.png');
         this.load.image('square', 'assets/images/square.png');
         this.load.image('mouvable', 'assets/images/mouvable.png');
+        this.load.image('mouvableactif', 'assets/images/mouvable-actif.png');
         this.load.image('tube', 'assets/images/tube.png');
         this.load.image('clefs', 'assets/images/Key.png');
         this.load.image('doore', 'assets/images/door.png');
@@ -28,6 +42,9 @@ class scene extends Phaser.Scene {
         this.load.image('cloud', 'assets/images/cloud.png');
         this.load.image("door-open","assets/images/door-open.png")
         this.load.image("boss1","assets/images/boss.png")
+        this.load.image("life1","assets/images/life1.png")
+        this.load.image("life2","assets/images/life2.png")
+        this.load.image("life3","assets/images/life3.png")
 
 
         this.load.spritesheet('shield', 'assets/images/tilesheet/tilesheet-shield.png',{ frameWidth: 512, frameHeight: 512 });
@@ -138,11 +155,12 @@ class scene extends Phaser.Scene {
 
         this.clef = this.physics.add.group({
             allowGravity: false,
-            immovable: true
+            immovable: true,
+            visible: false
         });
         map.getObjectLayer('clef').objects.forEach((clefe) => {
             this.clefSprite = this.clef.create(clefe.x, clefe.y - clefe.height, 'clefs').setOrigin(0);
-
+            this.clefSprite.setVisible(false)
         });
 
         this.soin = this.physics.add.group({
@@ -193,8 +211,13 @@ class scene extends Phaser.Scene {
             blendMode: 'ADD',
             alpha:1,
         });**/
+        this.posX=this.player.player.x
+        this.posY=this.player.player.y
 
-
+        this.creaSon()
+        ///UI
+        this.lifeui = this.add.sprite((this.player.cam.x), (this.player.cam.y),"life3");
+        this.lifeui.setVisible(true);
 
     }
 
@@ -217,8 +240,8 @@ class scene extends Phaser.Scene {
                     me.player.gravitychange(500);
                     me.moveSprite.setGravity(0,1000)
                     break;
-                case Phaser.Input.Keyboard.KeyCodes.Z:
-
+                case Phaser.Input.Keyboard.LEFT:
+                    this.Pas.play()
                     break;
 
 
@@ -251,23 +274,94 @@ class scene extends Phaser.Scene {
             {
                 console.log('Left Button was released');
                 me.player.tir();
+                me.Tir.play()
             }
             else if (pointer.rightButtonReleased())
             {
                 me.player.gravitir()
                 console.log('Right Button was released');
+                me.Tir2.play()
             }
 
         });
 
     }
+    //création son
+    creaSon(){
+        this.foret=this.sound.add('forest',{loop: true});
+        this.foret.volume=0.05;
+        this.grote=this.sound.add('grotte',{loop: true});
+        this.grote.volume=1;
+        this.soins=this.sound.add('soin',{loop: false});
+        this.soins.volume=0.1;
+        this.Pas=this.sound.add('pas',{loop: false});
+        this.Pas.volume=0.1;
+        this.Tir=this.sound.add('tir',{loop: false});
+        this.Tir.volume=0.1;
+        this.Tir2=this.sound.add('tir2',{loop: false});
+        this.Tir2.volume=0.1;
+        this.Repere=this.sound.add('repere',{loop: false});
+        this.Repere.volume=0.1;
+
+
+
+
+
+        if(this.posX<10000){
+
+            this.foret.play();
+        }
+        if(this.player.player.x>10000){
+
+            this.grote.play();
+        }
+
+    }
+    // gestion des sons
+    gestionSon(){
+
+        if(this.posX>10000){
+            this.foret.stop();
+        }
+        if(this.posX>30000){
+            this.grote.stop();
+        }
+
+
+
+
+
+    }
+
+    interfacelife(){
+        this.lifeui.x=(this.player.cam.x)
+        this.lifeui.y=(this.player.cam.y)-275
+
+        if(this.player.life<= 50){
+            this.lifeui.setTexture('life1')
+        }
+        if(50<this.player.life<=100){
+
+
+            this.lifeui.setTexture('life2')
+        }
+        if(this.player.life>100){
+
+
+            this.lifeui.setTexture('life3')
+        }
+    }
 
     update() {
         //console.log(this.player.player.x)
         //console.log(this.player.player.y)
-        this.player.interfacelife()
 
-
+        this.interfacelife()
+        this.posX=this.player.player.x
+        this.posY=this.player.player.y
+        console.log(this.posX)
+        console.log(this.posY)
+        //this.gestionSon()
         if(this.player.player.y >5000 || this.player.player.y<-5000){
             this.player.life=0
         }

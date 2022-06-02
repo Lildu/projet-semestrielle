@@ -9,11 +9,13 @@ class Start extends Phaser.Scene {
         this.load.image('bouton', 'assets/images/square.png');
         this.load.spritesheet('menu', 'assets/images/tilesheet/finaux/tilsesheet-menu.png',{ frameWidth: 480, frameHeight: 270 });
         this.load.spritesheet('intro', 'assets/images/tilesheet/finaux/intro-tilsheet.png',{ frameWidth: 480, frameHeight: 270 });
-
+        this.load.audio('23','assets/son/23.wav');
     }
 
     create(){
-
+        this.son=this.sound.add('23',{loop: true});
+        this.son.volume=0.2;
+        this.son.play();
         this.menu = this.add.sprite(0, 0, 'menuback').setOrigin(0, 0);
         this.menu.setScale(3.5)
         this.menu.anims.create({
@@ -42,11 +44,11 @@ class Start extends Phaser.Scene {
         const buttonStartSprite = this.add.image(50, 390, 'bouton')
             .setOrigin(0, 0)
             .setScale(0.5,0.2)
-            .setAlpha(0.7);
+            .setAlpha(0);
         const buttonStartSprite2 = this.add.image(50, 590, 'bouton')
             .setOrigin(0, 0)
             .setScale(0.5,0.2)
-            .setAlpha(0.7);
+            .setAlpha(0);
 
 
         this.buttonStart = this.add.rectangle(buttonStartSprite.x, buttonStartSprite.y,350,150,0xffffff,0)
@@ -56,13 +58,13 @@ class Start extends Phaser.Scene {
 
 
                 this.scene.start('game')
-
+                this.son.stop()
             })
             .on('pointerover',function(){
-                buttonStartSprite.setAlpha(1);
+                buttonStartSprite.setAlpha(0.5);
             })
             .on('pointerout',function(){
-                buttonStartSprite.setAlpha(0.7);
+                buttonStartSprite.setAlpha(0);
             })
 
 
@@ -80,10 +82,10 @@ class Start extends Phaser.Scene {
 
             })
             .on('pointerover',function(){
-                buttonStartSprite2.setAlpha(1);
+                buttonStartSprite2.setAlpha(0.5);
             })
             .on('pointerout',function(){
-                buttonStartSprite2.setAlpha(0.7);
+                buttonStartSprite2.setAlpha(0);
             })
 
     }

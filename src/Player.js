@@ -8,7 +8,7 @@ class Player {
         this.life =100
         this.repere=0
         this.lock=false
-        this.nbenemi=0
+
 
 
 
@@ -82,12 +82,13 @@ class Player {
             frames: this.scene.anims.generateFrameNumbers('crash', {start: 0, end: 179}),
             frameRate: 30,
             repeat:-1,
+            yoyo:true
         });
         this.scene.anims.create({
             key: 'sage',
             frames: this.scene.anims.generateFrameNumbers('sageanime', {start: 0, end: 29}),
             frameRate: 30,
-            repeat:1,
+            repeat:0,
         });
         this.scene.anims.create({
             key: 'soin',
@@ -123,10 +124,6 @@ class Player {
         this.scene.physics.add.overlap(this.player, this.scene.saave, this.actifSave,null,this);
         this.scene.physics.add.overlap(this.player,this.scene.clef, this.addKey, null, this);
         this.scene.physics.add.overlap(this.player,this.scene.soin,this.soins,null,this);
-        ///UI
-        this.lifeui = this.scene.add.sprite((this.cam.x), (this.cam.y),"square");
-        this.lifeui.setDisplaySize(100,20);
-        this.lifeui.setVisible(false);
 
 
         /// ENEMI
@@ -302,7 +299,7 @@ class Player {
         console.log("OH")
         if (this.life<150){
             this.life+=20
-
+            this.scene.soins.play()
             console.log("OH oui le soins")
             console.log(this.life)
             flower.disableBody()
@@ -337,6 +334,13 @@ class Player {
 
     // Création des enemis
     creationenemi(){
+        this.enemi = this.scene.physics.add.sprite(5000, 0,"enemi");
+        this.enemi.setScale(0.2)
+        this.enemi.setGravity(0,-500)
+        console.log("enemi")
+        this.enemi.setVelocity(1)
+        this.scene.physics.add.collider(this.enemi, this.scene.platforms);
+
         console.log("enemi2")
         this.enemi2 = this.scene.physics.add.sprite(35700, -500,"enemi");
         this.enemi2.setScale(0.2)
@@ -411,15 +415,6 @@ class Player {
             flipX: true
         });
 
-        if (this.repere===2){
-            console.log("enemi")
-            this.enemi = this.scene.physics.add.sprite(5000, 0,"enemi");
-            this.enemi.setScale(0.2)
-            this.enemi.setGravity(0,-500)
-            this.enemi.setVelocity(1)
-            this.scene.physics.add.collider(this.enemi, this.scene.platforms);
-            this.scene.physics.add.collider(this.enemi, this.player, this.lifelost, null, this);
-        }
 
 
             this.scene.physics.add.collider(this.enemi2, this.scene.platforms);
@@ -441,15 +436,18 @@ class Player {
 
     //mouvement mis a jour sur la position du player
     mooveenemi(){
-        this.scene.tweens.add({
-            targets: this.enemi,
-            x: this.player.x,
-            y: this.player.y,
-            duration: 4000,
-            ease: 'Each',
-            repeat: 0,
-            delay:0
-        });
+        if (this.repere==2){
+            this.scene.tweens.add({
+                targets: this.enemi,
+                x: this.player.x,
+                y: this.player.y,
+                duration: 4000,
+                ease: 'Each',
+                repeat: 0,
+                delay:0
+            });
+
+        }
         this.scene.tweens.add({
             targets: this.enemiboss,
             x: this.player.x,
@@ -482,24 +480,6 @@ class Player {
 
     }
 
-    interfacelife(){
-        this.lifeui.x=(this.cam.x)+100
-        this.lifeui.y=(this.cam.y)+100
-
-        if(this.life<= 50){
-            this.lifeui.setDisplaySize(10,10)
-        }
-        if(50<this.life<=100){
-
-            this.lifeui.setDisplaySize(100,200);
-
-        }
-        if(this.life>100){
-
-            this.lifeui.setDisplaySize(200,20);
-
-        }
-    }
 
 
     actifSave(player, save){
@@ -515,7 +495,7 @@ class Player {
         this.currentSaveY = player.y
         this.repere +=1;
         console.log(this.repere)
-
+        this.scene.Repere.play()
     }
 
 
@@ -577,10 +557,12 @@ class Player {
         this.player.play('walk', true);
     }
     moveRight(v){
+
         this.player.setVelocityX(v);
 
         if (this.player.body.onFloor()) {
             this.player.play('walk', true)}
+
         this.player.setFlipX(false);
     }
     moveLeft(v){
@@ -645,11 +627,13 @@ class Player {
     gravityEffect(balle, moves){
         balle.destroy()
         moves.setGravityY(-610)
+        moves.setTexture('mouvableactif')
 
     }
     balledelete(balle,moves){
         balle.destroy()
         moves.setGravityY(1)
+        moves.setTexture('mouvable')
     }
 
     enemidelete(enemi,balle){
