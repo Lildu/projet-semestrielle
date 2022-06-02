@@ -75,6 +75,7 @@ class scene extends Phaser.Scene {
 
 
         this.backfirst = map.createStaticLayer('back-first', tileset);
+        this.tour = map.createStaticLayer('tour', tileset);
         this.sage = this.add.sprite(18500, 800,"sage");
 
         this.lighte = map.createStaticLayer('light', tileset);
@@ -153,7 +154,8 @@ class scene extends Phaser.Scene {
             this.soinSprite.setScale(0.3)
 
         });
-
+        this.boss=this.add.sprite(74420,-8600,"boss1")
+        this.boss.setScale(2)
         this.initKeyboard();
         this.cameras.main.startFollow(this.player.cam,false);
         this.cameras.main.zoom= 1.5;
@@ -271,8 +273,7 @@ class scene extends Phaser.Scene {
         }
         this.player.cam.setX(this.player.player.x);
         this.player.cam.setY(this.player.player.y-125);
-        this.player.mooveenemi(this.player.enemi)
-        this.player.mooveenemi(this.enemiboss)
+        this.player.mooveenemi()
         this.back2.scrollFactorX=1.02;
         //this.foog3.scrollFactorX=1.1;
         this.back3.scrollFactorX=1.01;

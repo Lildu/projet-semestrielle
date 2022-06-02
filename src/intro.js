@@ -27,7 +27,7 @@ class Start extends Phaser.Scene {
         this.menu.play("menuu")
 
         this.intro = this.add.sprite(0, 0, 'menuback').setOrigin(0, 0);
-        this.intro.setScale(2)
+        this.intro.setScale(3.5)
         this.intro.setVisible(false)
         this.anims.create({
             key: 'intro',
@@ -43,16 +43,20 @@ class Start extends Phaser.Scene {
             .setOrigin(0, 0)
             .setScale(0.5,0.2)
             .setAlpha(0.7);
+        const buttonStartSprite2 = this.add.image(50, 590, 'bouton')
+            .setOrigin(0, 0)
+            .setScale(0.5,0.2)
+            .setAlpha(0.7);
+
 
         this.buttonStart = this.add.rectangle(buttonStartSprite.x, buttonStartSprite.y,350,150,0xffffff,0)
             .setOrigin(0,0)
             .setInteractive()
             .on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, ()=> {
 
+
                 this.scene.start('game')
 
-                this.intro.setVisible(true)
-                this.intro.play('intro')
             })
             .on('pointerover',function(){
                 buttonStartSprite.setAlpha(1);
@@ -60,6 +64,31 @@ class Start extends Phaser.Scene {
             .on('pointerout',function(){
                 buttonStartSprite.setAlpha(0.7);
             })
+
+
+
+        this.buttonStart2 = this.add.rectangle(buttonStartSprite2.x, buttonStartSprite2.y,350,150,0xffffff,0)
+            .setOrigin(0,0)
+            .setInteractive()
+            .on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, ()=> {
+                buttonStartSprite.setAlpha(0)
+                buttonStartSprite2.setAlpha(0)
+                this.intro.setVisible(true)
+
+                this.intro.play('intro')
+
+
+            })
+            .on('pointerover',function(){
+                buttonStartSprite2.setAlpha(1);
+            })
+            .on('pointerout',function(){
+                buttonStartSprite2.setAlpha(0.7);
+            })
+
+    }
+
+    update(){
 
     }
 

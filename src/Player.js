@@ -18,7 +18,7 @@ class Player {
 
 
         //Création du player
-        this.player = this.scene.physics.add.sprite(0, -100,"dude");
+        this.player = this.scene.physics.add.sprite(0, 0,"dude");
 
         //this.player.setBounce(0.1);
         this.player.setScale(0.4);
@@ -93,13 +93,21 @@ class Player {
             key: 'soin',
             frames: this.scene.anims.generateFrameNumbers('soin', {start: 0, end: 17}),
             frameRate: 30,
-            repeat:1,
+            repeat:0,
         });
         this.scene.anims.create({
             key: 'boss',
             frames: this.scene.anims.generateFrameNumbers('boss', {start: 0, end: 209}),
             frameRate: 30,
-            repeat:1,
+            repeat:0,
+            hideOnComplete:true,
+        });
+        this.scene.anims.create({
+            key: 'bosspuissance',
+            frames: this.scene.anims.generateFrameNumbers('boss', {start: 44, end: 209}),
+            frameRate: 30,
+            repeat:-1,
+            yoyo:true
         });
 
 
@@ -122,14 +130,8 @@ class Player {
 
 
         /// ENEMI
+        this.creationboss()
 
-        this.colideboss=this.scene.physics.add.sprite(1000,500,"square")
-        this.colideboss.setVisible(false)
-        this.colideboss.setScale(0.5)
-        this.boss=this.scene.physics.add.sprite(1000,500,"boss1")
-
-        this.scene.physics.add.overlap(this.colideboss, this.player, this.actionboss, null, this);
-        this.scene.physics.add.collider(this.colideboss, this.scene.platforms);
 
         this.creationenemi()
 
@@ -232,23 +234,69 @@ class Player {
 
 
     }
+
+    creationboss(){
+        this.colideboss=this.scene.physics.add.sprite(74420,-8400,"square")
+        this.colideboss.setVisible(false)
+        this.colideboss.setScale(0.5)
+
+        this.scene.physics.add.overlap(this.colideboss, this.player, this.actionboss, null, this);
+        this.scene.physics.add.collider(this.colideboss, this.scene.platforms);
+
+
+    }
     actionboss(square, player){
-            this.scene.sage.play("boss")
+            this.scene.boss.play("boss")
+            this.scene.boss.play("bosspuissance")
+
             square.destroy()
             console.log("Tu viens de signer ton arrêt de mort.")
             this.créationenmiboss()
 
     }
+
     créationenmiboss(){
-        this.enemiboss = this.scene.physics.add.sprite(this.boss.x, this.boss.y,"enemi");
+        this.enemiboss = this.scene.physics.add.sprite(this.scene.boss.x-100, this.scene.boss.y-500,"enemi");
         this.enemiboss.setScale(0.2)
         this.enemiboss.setGravity(0,-500);
         this.enemiboss.setVelocity(1)
 
+
         this.scene.physics.add.collider(this.enemiboss, this.scene.platforms);
         this.scene.physics.add.overlap(this.enemiboss, this.player, this.lifelost, null, this);
-    }
 
+
+        this.enemiboss2 = this.scene.physics.add.sprite(this.scene.boss.x+100, this.scene.boss.y-500,"enemi");
+        this.enemiboss2.setScale(0.2)
+        this.enemiboss2.setGravity(0,-500);
+        this.enemiboss2.setVelocity(1)
+
+
+        this.scene.physics.add.collider(this.enemiboss2, this.scene.platforms);
+        this.scene.physics.add.overlap(this.enemiboss2, this.player, this.lifelost, null, this);
+
+        this.enemiboss3 = this.scene.physics.add.sprite(this.scene.boss.x+400, this.scene.boss.y-500,"enemi");
+        this.enemiboss3.setScale(0.2)
+        this.enemiboss3.setGravity(0,-500);
+        this.enemiboss3.setVelocity(1)
+
+
+        this.scene.physics.add.collider(this.enemiboss3, this.scene.platforms);
+        this.scene.physics.add.overlap(this.enemiboss3, this.player, this.lifelost, null, this);
+
+        if(this.enemiboss.destroy(true) && this.enemiboss2.destroy(true) && this.enemiboss3.destroy(true)){
+            this.colidebossEND=this.scene.physics.add.sprite(74420,-8400,"square")
+            this.colidebossEND.setVisible(false)
+            this.colidebossEND.setScale(0.5)
+
+            this.scene.physics.add.overlap(this.colidebossEND, this.player, this.end, null, this);
+            this.scene.physics.add.collider(this.colidebossEND, this.scene.platforms);
+        }
+
+    }
+    end(){
+        console.log("GG")
+    }
     //soin +add vie
     soins(player, flower){
         console.log("OH")
@@ -392,9 +440,36 @@ class Player {
     }
 
     //mouvement mis a jour sur la position du player
-    mooveenemi(enemi){
+    mooveenemi(){
         this.scene.tweens.add({
-            targets: enemi,
+            targets: this.enemi,
+            x: this.player.x,
+            y: this.player.y,
+            duration: 4000,
+            ease: 'Each',
+            repeat: 0,
+            delay:0
+        });
+        this.scene.tweens.add({
+            targets: this.enemiboss,
+            x: this.player.x,
+            y: this.player.y,
+            duration: 4000,
+            ease: 'Each',
+            repeat: 0,
+            delay:0
+        });
+        this.scene.tweens.add({
+            targets: this.enemiboss2,
+            x: this.player.x,
+            y: this.player.y,
+            duration: 4000,
+            ease: 'Each',
+            repeat: 0,
+            delay:0
+        });
+        this.scene.tweens.add({
+            targets: this.enemiboss3,
             x: this.player.x,
             y: this.player.y,
             duration: 4000,
@@ -540,6 +615,9 @@ class Player {
         this.scene.physics.add.overlap(this.balle, this.enemi4,this.enemidelete, null ,this)
         this.scene.physics.add.overlap(this.balle, this.enemi5,this.enemidelete, null ,this)
         this.scene.physics.add.overlap(this.balle, this.enemi6,this.enemidelete, null ,this)
+        this.scene.physics.add.overlap(this.balle, this.enemiboss,this.enemidelete, null ,this)
+        this.scene.physics.add.overlap(this.balle, this.enemiboss2,this.enemidelete, null ,this)
+        this.scene.physics.add.overlap(this.balle, this.enemiboss3,this.enemidelete, null ,this)
         this.scene.physics.add.collider(this.balle, this.scene.moves,this.balledelete,null,this)
         //this.scene.physics.add.collider(this.balle, this.enemi, this.enemidelete())
 
