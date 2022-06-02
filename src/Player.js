@@ -3,8 +3,6 @@ class Player {
 
     constructor(scene) {
 
-
-
         //intialisation variable du player
         this.nbclef=0
         this.life =100
@@ -20,7 +18,7 @@ class Player {
 
 
         //Création du player
-        this.player = this.scene.physics.add.sprite(65230, -1200,"dude");
+        this.player = this.scene.physics.add.sprite(0, -100,"dude");
 
         //this.player.setBounce(0.1);
         this.player.setScale(0.4);
@@ -97,6 +95,12 @@ class Player {
             frameRate: 30,
             repeat:1,
         });
+        this.scene.anims.create({
+            key: 'boss',
+            frames: this.scene.anims.generateFrameNumbers('boss', {start: 0, end: 209}),
+            frameRate: 30,
+            repeat:1,
+        });
 
 
 
@@ -111,7 +115,23 @@ class Player {
         this.scene.physics.add.overlap(this.player, this.scene.saave, this.actifSave,null,this);
         this.scene.physics.add.overlap(this.player,this.scene.clef, this.addKey, null, this);
         this.scene.physics.add.overlap(this.player,this.scene.soin,this.soins,null,this);
+        ///UI
+        this.lifeui = this.scene.add.sprite((this.cam.x), (this.cam.y),"square");
+        this.lifeui.setDisplaySize(100,20);
+        this.lifeui.setVisible(false);
 
+
+        /// ENEMI
+
+        this.colideboss=this.scene.physics.add.sprite(1000,500,"square")
+        this.colideboss.setVisible(false)
+        this.colideboss.setScale(0.5)
+        this.boss=this.scene.physics.add.sprite(1000,500,"boss1")
+
+        this.scene.physics.add.overlap(this.colideboss, this.player, this.actionboss, null, this);
+        this.scene.physics.add.collider(this.colideboss, this.scene.platforms);
+
+        this.creationenemi()
 
     }
 
@@ -188,7 +208,9 @@ class Player {
         this.scene.physics.add.overlap(this.colidesage, this.player, this.dialoguesage, null, this);
         this.scene.physics.add.collider(this.colidesage, this.scene.platforms);
 
-        this.creationenemi()
+
+
+
     }
     dialoguePNG(png, player){
         if(png===this.PNG1){
@@ -210,13 +232,28 @@ class Player {
 
 
     }
+    actionboss(square, player){
+            this.scene.sage.play("boss")
+            square.destroy()
+            console.log("Tu viens de signer ton arrêt de mort.")
+            this.créationenmiboss()
 
+    }
+    créationenmiboss(){
+        this.enemiboss = this.scene.physics.add.sprite(this.boss.x, this.boss.y,"enemi");
+        this.enemiboss.setScale(0.2)
+        this.enemiboss.setGravity(0,-500);
+        this.enemiboss.setVelocity(1)
+
+        this.scene.physics.add.collider(this.enemiboss, this.scene.platforms);
+        this.scene.physics.add.overlap(this.enemiboss, this.player, this.lifelost, null, this);
+    }
 
     //soin +add vie
     soins(player, flower){
         console.log("OH")
         if (this.life<150){
-            this.life=150
+            this.life+=20
 
             console.log("OH oui le soins")
             console.log(this.life)
@@ -327,7 +364,6 @@ class Player {
         });
 
         if (this.repere===2){
-            this.nbenemi+1
             console.log("enemi")
             this.enemi = this.scene.physics.add.sprite(5000, 0,"enemi");
             this.enemi.setScale(0.2)
@@ -344,6 +380,10 @@ class Player {
             this.scene.physics.add.overlap(this.enemi3, this.player, this.lifelost, null, this);
             this.scene.physics.add.collider(this.enemi4, this.scene.platforms);
             this.scene.physics.add.overlap(this.enemi4, this.player, this.lifelost, null, this);
+            this.scene.physics.add.collider(this.enemi5, this.scene.platforms);
+            this.scene.physics.add.overlap(this.enemi5, this.player, this.lifelost, null, this);
+            this.scene.physics.add.collider(this.enemi6, this.scene.platforms);
+            this.scene.physics.add.overlap(this.enemi6, this.player, this.lifelost, null, this);
 
 
 
@@ -352,9 +392,9 @@ class Player {
     }
 
     //mouvement mis a jour sur la position du player
-    mooveenemi(){
+    mooveenemi(enemi){
         this.scene.tweens.add({
-            targets: this.enemi,
+            targets: enemi,
             x: this.player.x,
             y: this.player.y,
             duration: 4000,
@@ -365,6 +405,25 @@ class Player {
 
 
 
+    }
+
+    interfacelife(){
+        this.lifeui.x=(this.cam.x)+100
+        this.lifeui.y=(this.cam.y)+100
+
+        if(this.life<= 50){
+            this.lifeui.setDisplaySize(10,10)
+        }
+        if(50<this.life<=100){
+
+            this.lifeui.setDisplaySize(100,200);
+
+        }
+        if(this.life>100){
+
+            this.lifeui.setDisplaySize(200,20);
+
+        }
     }
 
 
@@ -519,7 +578,7 @@ class Player {
 
         if ( this.player.x<10000){
             enemi.setX(5000)
-            this.mooveenemi()
+            this.mooveenemi(enemi)
 
         }
         if(this.repere===3){

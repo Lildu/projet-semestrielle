@@ -27,12 +27,14 @@ class scene extends Phaser.Scene {
         this.load.image('balle2', 'assets/images/balle2.png');
         this.load.image('cloud', 'assets/images/cloud.png');
         this.load.image("door-open","assets/images/door-open.png")
+        this.load.image("boss1","assets/images/boss.png")
 
 
         this.load.spritesheet('shield', 'assets/images/tilesheet/tilesheet-shield.png',{ frameWidth: 512, frameHeight: 512 });
         this.load.spritesheet('sword', 'assets/images/tilesheet/tilesheet-sword2.png',{ frameWidth: 512, frameHeight: 512 });
         this.load.spritesheet('midle', 'assets/images/tilesheet/tilesheet-gun-midle.png',{ frameWidth: 512, frameHeight: 512 });
         this.load.spritesheet('intro', 'assets/images/tilesheet/finaux/intro-tilsheet.png',{ frameWidth: 480, frameHeight: 270 });
+        this.load.spritesheet('boss', 'assets/images/tilesheet/finaux/tilsesheet-boss.png',{ frameWidth: 720, frameHeight: 405 });
         this.load.spritesheet('menu', 'assets/images/tilesheet/finaux/tilsesheet-menu.png',{ frameWidth: 480, frameHeight: 270 });
         this.load.spritesheet('shoot', 'assets/images/tilesheet/finaux/shoot-tilsheet.png',{ frameWidth: 400, frameHeight: 400 });
         this.load.spritesheet('Pnj', 'assets/images/tilesheet/finaux/tilesheet-png.png',{ frameWidth: 400, frameHeight: 400 });
@@ -50,16 +52,7 @@ class scene extends Phaser.Scene {
 
 
     create() {
-        this.intro = this.add.sprite(0, 0, 'menuback').setOrigin(0, 0);
-        this.intro.setScale(1)
-        this.anims.create({
-            key: 'intro',
-            frames: this.anims.generateFrameNumbers('intro', {start: 0, end: 430}),
-            frameRate: 30,
-            repeat:1,
-            hideOnComplete:true
-        });
-        //this.play("intro")
+
 
         const backgroundImage = this.add.image(-1000, -3000, 'background').setOrigin(0, 0);
         backgroundImage.setScale(7.6, 2.5);
@@ -198,6 +191,9 @@ class scene extends Phaser.Scene {
             blendMode: 'ADD',
             alpha:1,
         });**/
+
+
+
     }
 
     initKeyboard(){
@@ -265,15 +261,18 @@ class scene extends Phaser.Scene {
     }
 
     update() {
-        console.log(this.player.player.x)
-        console.log(this.player.player.y)
+        //console.log(this.player.player.x)
+        //console.log(this.player.player.y)
+        this.player.interfacelife()
+
+
         if(this.player.player.y >5000 || this.player.player.y<-5000){
             this.player.life=0
         }
         this.player.cam.setX(this.player.player.x);
         this.player.cam.setY(this.player.player.y-125);
-        this.player.mooveenemi()
-
+        this.player.mooveenemi(this.player.enemi)
+        this.player.mooveenemi(this.enemiboss)
         this.back2.scrollFactorX=1.02;
         //this.foog3.scrollFactorX=1.1;
         this.back3.scrollFactorX=1.01;
@@ -281,8 +280,8 @@ class scene extends Phaser.Scene {
 
         this.three2.scrollFactorX=1.005;
         this.three3.scrollFactorX=1.005;
-        this.three2.scrollFactorY=-1.005;
-        this.three3.scrollFactorY=-1.005;
+        //this.three2.scrollFactorY=-1.005;
+        //this.three3.scrollFactorY=-1.005;
 
         switch (true) {
 

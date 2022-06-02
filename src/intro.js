@@ -8,6 +8,7 @@ class Start extends Phaser.Scene {
         this.load.image('menuback', 'assets/images/menu.png');
         this.load.image('bouton', 'assets/images/square.png');
         this.load.spritesheet('menu', 'assets/images/tilesheet/finaux/tilsesheet-menu.png',{ frameWidth: 480, frameHeight: 270 });
+        this.load.spritesheet('intro', 'assets/images/tilesheet/finaux/intro-tilsheet.png',{ frameWidth: 480, frameHeight: 270 });
 
     }
 
@@ -25,7 +26,16 @@ class Start extends Phaser.Scene {
 
         this.menu.play("menuu")
 
-
+        this.intro = this.add.sprite(0, 0, 'menuback').setOrigin(0, 0);
+        this.intro.setScale(2)
+        this.intro.setVisible(false)
+        this.anims.create({
+            key: 'intro',
+            frames: this.anims.generateFrameNumbers('intro', {start: 0, end: 430}),
+            frameRate: 30,
+            repeat:0,
+            hideOnComplete:true
+        });
 
 
 
@@ -38,7 +48,11 @@ class Start extends Phaser.Scene {
             .setOrigin(0,0)
             .setInteractive()
             .on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, ()=> {
+
                 this.scene.start('game')
+
+                this.intro.setVisible(true)
+                this.intro.play('intro')
             })
             .on('pointerover',function(){
                 buttonStartSprite.setAlpha(1);
