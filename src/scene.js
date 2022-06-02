@@ -1,5 +1,9 @@
 class scene extends Phaser.Scene {
 
+    constructor() {
+        super('game');
+    }
+
     preload() {
         this.load.image('background', 'assets/images/background.png');
         this.load.image('spike', 'assets/images/spike.png');
@@ -18,15 +22,27 @@ class scene extends Phaser.Scene {
         this.load.image('repere1', 'assets/images/repere-1.png');
         this.load.image('PNG', 'assets/images/PNG.png');
         this.load.image('sage', 'assets/images/sage.png');
+        this.load.image('sage-2', 'assets/images/sage-2.png');
+        this.load.image('balle', 'assets/images/balle.png');
+        this.load.image('balle2', 'assets/images/balle2.png');
+        this.load.image('cloud', 'assets/images/cloud.png');
+        this.load.image("door-open","assets/images/door-open.png")
 
 
-        this.load.spritesheet('walk', 'assets/images/tilesheet/tilesheet-walk.png',{ frameWidth: 512, frameHeight: 512 });
-        this.load.spritesheet('idle', 'assets/images/tilesheet/tilesheet-idle.png',{ frameWidth: 512, frameHeight: 512 });
         this.load.spritesheet('shield', 'assets/images/tilesheet/tilesheet-shield.png',{ frameWidth: 512, frameHeight: 512 });
         this.load.spritesheet('sword', 'assets/images/tilesheet/tilesheet-sword2.png',{ frameWidth: 512, frameHeight: 512 });
-        this.load.spritesheet('up', 'assets/images/tilesheet/tilesheet-gun-up.png',{ frameWidth: 512, frameHeight: 512 });
         this.load.spritesheet('midle', 'assets/images/tilesheet/tilesheet-gun-midle.png',{ frameWidth: 512, frameHeight: 512 });
-        this.load.spritesheet('down', 'assets/images/tilesheet/tilesheet-gun-down.png',{ frameWidth: 512, frameHeight: 512 });
+        this.load.spritesheet('intro', 'assets/images/tilesheet/finaux/intro-tilsheet.png',{ frameWidth: 480, frameHeight: 270 });
+        this.load.spritesheet('menu', 'assets/images/tilesheet/finaux/tilsesheet-menu.png',{ frameWidth: 480, frameHeight: 270 });
+        this.load.spritesheet('shoot', 'assets/images/tilesheet/finaux/shoot-tilsheet.png',{ frameWidth: 400, frameHeight: 400 });
+        this.load.spritesheet('Pnj', 'assets/images/tilesheet/finaux/tilesheet-png.png',{ frameWidth: 400, frameHeight: 400 });
+        this.load.spritesheet('sageanime', 'assets/images/tilesheet/finaux/tilesheet-sage.png',{ frameWidth: 1453, frameHeight: 395 });
+        this.load.spritesheet('soin', 'assets/images/tilesheet/finaux/tile-soin.png',{ frameWidth: 405, frameHeight: 405 });
+        this.load.spritesheet('crash', 'assets/images/tilesheet/finaux/tilsesheet-crash.png',{ frameWidth: 512, frameHeight: 288 });
+        this.load.spritesheet('idle', 'assets/images/tilesheet/finaux/tilsesheet-idle.png',{ frameWidth: 400, frameHeight: 400 });
+        this.load.spritesheet('walk', 'assets/images/tilesheet/finaux/tilsesheet-walk.png',{ frameWidth: 400, frameHeight: 400 });
+
+
 
         // Load the export Tiled JSON
         this.load.tilemapTiledJSON('map', 'assets/tilemaps/Alpha1.json');
@@ -34,8 +50,16 @@ class scene extends Phaser.Scene {
 
 
     create() {
-
-
+        this.intro = this.add.sprite(0, 0, 'menuback').setOrigin(0, 0);
+        this.intro.setScale(1)
+        this.anims.create({
+            key: 'intro',
+            frames: this.anims.generateFrameNumbers('intro', {start: 0, end: 430}),
+            frameRate: 30,
+            repeat:1,
+            hideOnComplete:true
+        });
+        //this.play("intro")
 
         const backgroundImage = this.add.image(-1000, -3000, 'background').setOrigin(0, 0);
         backgroundImage.setScale(7.6, 2.5);
@@ -58,6 +82,8 @@ class scene extends Phaser.Scene {
 
 
         this.backfirst = map.createStaticLayer('back-first', tileset);
+        this.sage = this.add.sprite(18500, 800,"sage");
+
         this.lighte = map.createStaticLayer('light', tileset);
 
 
@@ -103,7 +129,7 @@ class scene extends Phaser.Scene {
             immovable: true
         });
         map.getObjectLayer('save').objects.forEach((saves) => {
-            this.saveSprite = this.saave.create(saves.x-100, saves.y - saves.height, 'repere0').setOrigin(0);
+            this.saveSprite = this.saave.create(saves.x-100, (saves.y - saves.height)-500, 'repere0').setOrigin(0);
             this.saveSprite.setScale(0.1)
         });
 
@@ -112,8 +138,8 @@ class scene extends Phaser.Scene {
             immovable: true
         });
         map.getObjectLayer('door').objects.forEach((dooor) => {
-            this.doorSprite = this.door.create(dooor.x, dooor.y - dooor.height, 'doore').setOrigin(0);
-
+            this.doorSprite = this.door.create(dooor.x, dooor.y - dooor.height-100, 'doore').setOrigin(0);
+            this.doorSprite.setScale(0.35)
         });
 
         this.clef = this.physics.add.group({
@@ -125,7 +151,15 @@ class scene extends Phaser.Scene {
 
         });
 
+        this.soin = this.physics.add.group({
+            allowGravity: false,
+            immovable: true
+        });
+        map.getObjectLayer('soin').objects.forEach((soin) => {
+            this.soinSprite = this.soin.create(soin.x, soin.y - soin.height-50, 'tube').setOrigin(0);
+            this.soinSprite.setScale(0.3)
 
+        });
 
         this.initKeyboard();
         this.cameras.main.startFollow(this.player.cam,false);
@@ -134,15 +168,11 @@ class scene extends Phaser.Scene {
         this.flowers2 = map.createStaticLayer('flower2', tileset);
         //this.physics.add.overlap(this.player.player, this.clef,this.addKey(),null,this)
         this.solee = map.createStaticLayer('sol2', tileset);
+        this.vaisseau =this.add.sprite(-500,650,"")
+        this.vaisseau.play('crash')
 
-        this.flowers = this.physics.add.group({
-            allowGravity: false,
-            immovable: true
-        });
-        map.getObjectLayer('flower').objects.forEach((flowe) => {
-            this.flowerSprite = this.flowers.create(flowe.x, (flowe.y - flowe.height)-30, 'tube').setOrigin(0);
 
-        });
+
 
 
         this.fog = map.createStaticLayer('fog', tileset);
@@ -168,7 +198,6 @@ class scene extends Phaser.Scene {
             blendMode: 'ADD',
             alpha:1,
         });**/
-
     }
 
     initKeyboard(){
@@ -236,17 +265,24 @@ class scene extends Phaser.Scene {
     }
 
     update() {
-
+        console.log(this.player.player.x)
+        console.log(this.player.player.y)
+        if(this.player.player.y >5000 || this.player.player.y<-5000){
+            this.player.life=0
+        }
         this.player.cam.setX(this.player.player.x);
         this.player.cam.setY(this.player.player.y-125);
         this.player.mooveenemi()
 
-        this.back2.scrollFactorX=1.05;
+        this.back2.scrollFactorX=1.02;
         //this.foog3.scrollFactorX=1.1;
-        this.back3.scrollFactorX=1.05;
+        this.back3.scrollFactorX=1.01;
+
 
         this.three2.scrollFactorX=1.005;
         this.three3.scrollFactorX=1.005;
+        this.three2.scrollFactorY=-1.005;
+        this.three3.scrollFactorY=-1.005;
 
         switch (true) {
 
