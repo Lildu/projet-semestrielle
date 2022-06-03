@@ -399,13 +399,19 @@ class scene extends Phaser.Scene {
 
         this.three2.scrollFactorX=1.005;
         this.three3.scrollFactorX=1.005;
-        //this.three2.scrollFactorY=-1.005;
-        //this.three3.scrollFactorY=-1.005;
+
 
         switch (true) {
 
             case (this.cursors.space.isDown || this.cursors.up.isDown) && this.player.player.body.onFloor():
                 this.player.jump()
+
+                if(this.cursors.left.shiftKey &&this.cursors.right.isDown ){
+                    this.player.jump()
+                }
+                if(this.cursors.left.shiftKey &&this.cursors.left.isDown ){
+                    this.player.jump()
+                }
                 break;
             case this.cursors.left.isDown:
 
