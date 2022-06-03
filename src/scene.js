@@ -378,8 +378,8 @@ class scene extends Phaser.Scene {
     }
 
     update() {
-        console.log(this.player.player.x)
-        console.log(this.player.player.y)
+        //console.log(this.player.player.x)
+        //console.log(this.player.player.y)
 
         this.interfacelife()
         this.posX=this.player.player.x
