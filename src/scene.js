@@ -65,6 +65,7 @@ class scene extends Phaser.Scene {
         this.load.spritesheet('text-sage', 'assets/images/tilesheet/finaux/text-sage.png',{ frameWidth: 480, frameHeight: 270 });
         this.load.spritesheet('text-boss', 'assets/images/tilesheet/finaux/text-boss.png',{ frameWidth: 480, frameHeight: 270 });
         this.load.spritesheet('click', 'assets/images/tilesheet/finaux/click.png',{ frameWidth: 128, frameHeight: 128 });
+        this.load.spritesheet('enemi1', 'assets/images/tilesheet/finaux/tilesheet-enemi.png',{ frameWidth: 500, frameHeight: 281 });
 
 
 

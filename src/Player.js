@@ -133,6 +133,12 @@ class Player {
             frameRate: 30,
             repeat:-1
         });
+        this.scene.anims.create({
+            key: 'Enemi',
+            frames: this.scene.anims.generateFrameNumbers('enemi1', {start: 0, end: 19}),
+            frameRate: 30,
+            repeat:-1
+        });
 
 
         this.clickD=this.scene.add.sprite(5766,550,"")
@@ -293,9 +299,10 @@ class Player {
         this.textBoss.play('textboss')
 
         this.enemiboss = this.scene.physics.add.sprite(this.scene.boss.x-100, this.scene.boss.y-500,"enemi");
-        this.enemiboss.setScale(0.2)
+        this.enemiboss.setScale(1)
         this.enemiboss.setGravity(0,-500);
         this.enemiboss.setVelocity(1)
+        this.enemiboss.play('Enemi')
 
 
         this.scene.physics.add.collider(this.enemiboss, this.scene.platforms);
@@ -303,19 +310,19 @@ class Player {
 
 
         this.enemiboss2 = this.scene.physics.add.sprite(this.scene.boss.x+100, this.scene.boss.y-500,"enemi");
-        this.enemiboss2.setScale(0.2)
+        this.enemiboss2.setScale(1)
         this.enemiboss2.setGravity(0,-500);
         this.enemiboss2.setVelocity(1)
-
+        this.enemiboss2.play('Enemi')
 
         this.scene.physics.add.collider(this.enemiboss2, this.scene.platforms);
         this.scene.physics.add.overlap(this.enemiboss2, this.player, this.lifelost, null, this);
 
         this.enemiboss3 = this.scene.physics.add.sprite(this.scene.boss.x-200, this.scene.boss.y-500,"enemi");
-        this.enemiboss3.setScale(0.2)
+        this.enemiboss3.setScale(1)
         this.enemiboss3.setGravity(0,-500);
         this.enemiboss3.setVelocity(1)
-
+        this.enemiboss3.play('Enemi')
 
         this.scene.physics.add.collider(this.enemiboss3, this.scene.platforms);
         this.scene.physics.add.overlap(this.enemiboss3, this.player, this.lifelost, null, this);
@@ -374,15 +381,18 @@ class Player {
     // Création des enemis
     creationenemi(){
         this.enemi = this.scene.physics.add.sprite(5000, 0,"enemi");
-        this.enemi.setScale(0.2)
+        this.enemi.setScale(1)
         this.enemi.setGravity(0,-500)
         console.log("enemi")
         this.enemi.setVelocity(1)
+        this.enemi.setVelocity(1)
+        this.enemi.play('Enemi')
+
         this.scene.physics.add.collider(this.enemi, this.scene.platforms);
 
         console.log("enemi2")
         this.enemi2 = this.scene.physics.add.sprite(35700, -500,"enemi");
-        this.enemi2.setScale(0.2)
+        this.enemi2.setScale(1)
         this.enemi2.setGravity(0,-500);
         this.enemi2.setVelocity(1)
         this.scene.tweens.add({
@@ -395,10 +405,12 @@ class Player {
             delay: 1000,
             flipX: true
         });
+        this.enemi2.play('Enemi')
         this.enemi3 = this.scene.physics.add.sprite(48645, -1000,"enemi");
-        this.enemi3.setScale(0.2)
+        this.enemi3.setScale(1)
         this.enemi3.setGravity(0,-500);
         this.enemi3.setVelocity(1)
+        this.enemi3.play('Enemi')
         this.scene.tweens.add({
             targets: this.enemi3,
             x: '+=450',
@@ -411,9 +423,10 @@ class Player {
         });
 
         this.enemi4 = this.scene.physics.add.sprite(56652, -450,"enemi");
-        this.enemi4.setScale(0.2)
+        this.enemi4.setScale(1)
         this.enemi4.setGravity(0,-500);
         this.enemi4.setVelocity(1)
+        this.enemi4.play('Enemi')
         this.scene.tweens.add({
             targets: this.enemi4,
             x: '+=450',
@@ -426,9 +439,11 @@ class Player {
         });
 
         this.enemi5 = this.scene.physics.add.sprite(61122, -680,"enemi");
-        this.enemi5.setScale(0.2)
+        this.enemi5.setScale(1)
         this.enemi5.setGravity(0,-500);
         this.enemi5.setVelocity(1)
+        this.enemi5.play('Enemi')
+
         this.scene.tweens.add({
             targets: this.enemi5,
             x: '+=450',
@@ -440,9 +455,11 @@ class Player {
             flipX: true
         });
         this.enemi6 = this.scene.physics.add.sprite(68035, -780,"enemi");
-        this.enemi6.setScale(0.2)
+        this.enemi6.setScale(1)
         this.enemi6.setGravity(0,-500);
         this.enemi6.setVelocity(1)
+        this.enemi6.play('Enemi')
+
         this.scene.tweens.add({
             targets: this.enemi6,
             x: '+=450',
