@@ -18,7 +18,12 @@ class Player {
 
 
         //Création du player
-        this.player = this.scene.physics.add.sprite(0, 0,"dude");
+        this.player = this.scene.physics.add.sprite(-350, 600,"dude");
+
+
+
+
+        //this.player = this.scene.physics.add.sprite(this.scene.boss.x, this.scene.boss.y-100,"dude");
 
         //this.player.setBounce(0.1);
         this.player.setScale(0.4);
@@ -80,7 +85,7 @@ class Player {
         this.scene.anims.create({
             key: 'crash',
             frames: this.scene.anims.generateFrameNumbers('crash', {start: 0, end: 179}),
-            frameRate: 30,
+            frameRate: 5,
             repeat:-1,
             yoyo:true
         });
@@ -110,8 +115,37 @@ class Player {
             repeat:-1,
             yoyo:true
         });
+        this.scene.anims.create({
+            key: 'textsage',
+            frames: this.scene.anims.generateFrameNumbers('text-sage', {start: 0, end: 14}),
+            frameRate: 15,
+            repeat:0
+        });
+        this.scene.anims.create({
+            key: 'textboss',
+            frames: this.scene.anims.generateFrameNumbers('text-boss', {start: 0, end: 14}),
+            frameRate: 15,
+            repeat:0
+        });
+        this.scene.anims.create({
+            key: 'Click',
+            frames: this.scene.anims.generateFrameNumbers('click', {start: 0, end: 9}),
+            frameRate: 30,
+            repeat:-1
+        });
 
 
+        this.clickD=this.scene.add.sprite(5766,550,"")
+        this.clickD.setScale(0.5)
+        this.clickD.setAlpha(0.85)
+        this.clickD.play('Click')
+
+        this.clickG=this.scene.add.sprite(23267,950,"")
+        this.clickG.setScale(0.5)
+        this.clickG.setAlpha(0.85)
+        this.clickG.setFlipX(true)
+
+        this.clickG.play('Click')
 
         // CREATION PNG //
         this.creationPNG()
@@ -228,6 +262,8 @@ class Player {
             this.scene.sage.setTexture("sage-2")
             square.destroy()
             console.log("étranger tu vas être notre sauveur passe cette épreuve et bas le gardien en haut de cette tour, et tu trouveras ce que tu cherche.")
+            this.textSage=this.scene.add.sprite(18500,850,"")
+            this.textSage.play('textsage')
 
 
     }
@@ -253,6 +289,9 @@ class Player {
     }
 
     créationenmiboss(){
+        this.textBoss=this.scene.add.sprite(this.scene.boss.x,this.scene.boss.y,"")
+        this.textBoss.play('textboss')
+
         this.enemiboss = this.scene.physics.add.sprite(this.scene.boss.x-100, this.scene.boss.y-500,"enemi");
         this.enemiboss.setScale(0.2)
         this.enemiboss.setGravity(0,-500);
@@ -272,7 +311,7 @@ class Player {
         this.scene.physics.add.collider(this.enemiboss2, this.scene.platforms);
         this.scene.physics.add.overlap(this.enemiboss2, this.player, this.lifelost, null, this);
 
-        this.enemiboss3 = this.scene.physics.add.sprite(this.scene.boss.x+400, this.scene.boss.y-500,"enemi");
+        this.enemiboss3 = this.scene.physics.add.sprite(this.scene.boss.x-200, this.scene.boss.y-500,"enemi");
         this.enemiboss3.setScale(0.2)
         this.enemiboss3.setGravity(0,-500);
         this.enemiboss3.setVelocity(1)
@@ -506,7 +545,7 @@ class Player {
             door.setTexture('door-open')
             door.disableBody()
             door.setPosition((door.x-250),(door.y)-150)
-
+            this.scene.Porte.play()
         }
         else{
             console.log('il me manque une clef')

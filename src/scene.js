@@ -14,6 +14,8 @@ class scene extends Phaser.Scene {
         this.load.audio('pas','assets/son/pas.wav');
         this.load.audio('pas-int','assets/son/pas-int.wav');
         this.load.audio('repere','assets/son/repere.wav');
+        this.load.audio('porte','assets/son/porte.wav');
+        this.load.audio('alarme','assets/son/alarme.wav');
 
 
 
@@ -60,6 +62,9 @@ class scene extends Phaser.Scene {
         this.load.spritesheet('crash', 'assets/images/tilesheet/finaux/tilsesheet-crash.png',{ frameWidth: 512, frameHeight: 288 });
         this.load.spritesheet('idle', 'assets/images/tilesheet/finaux/tilsesheet-idle.png',{ frameWidth: 400, frameHeight: 400 });
         this.load.spritesheet('walk', 'assets/images/tilesheet/finaux/tilsesheet-walk.png',{ frameWidth: 400, frameHeight: 400 });
+        this.load.spritesheet('text-sage', 'assets/images/tilesheet/finaux/text-sage.png',{ frameWidth: 480, frameHeight: 270 });
+        this.load.spritesheet('text-boss', 'assets/images/tilesheet/finaux/text-boss.png',{ frameWidth: 480, frameHeight: 270 });
+        this.load.spritesheet('click', 'assets/images/tilesheet/finaux/click.png',{ frameWidth: 128, frameHeight: 128 });
 
 
 
@@ -88,13 +93,15 @@ class scene extends Phaser.Scene {
 
         this.three = map.createStaticLayer('three', tileset);
 
-        this.foog2 = map.createStaticLayer('fog2', tileset);
+
 
 
         this.backfirst = map.createStaticLayer('back-first', tileset);
         this.tour = map.createStaticLayer('tour', tileset);
-        this.sage = this.add.sprite(18500, 800,"sage");
+        this.foog2 = map.createStaticLayer('fog2', tileset);
 
+        this.sage = this.add.sprite(18500, 800,"sage");
+        this.flowers3 = map.createStaticLayer('flower3', tileset);
         this.lighte = map.createStaticLayer('light', tileset);
 
 
@@ -103,8 +110,6 @@ class scene extends Phaser.Scene {
 
         this.platforms.setCollisionByExclusion(-1, true);
         this.cursors = this.input.keyboard.createCursorKeys();
-
-        this.flowers3 = map.createStaticLayer('flower3', tileset);
 
 
 
@@ -182,35 +187,27 @@ class scene extends Phaser.Scene {
         //this.physics.add.overlap(this.player.player, this.clef,this.addKey(),null,this)
         this.solee = map.createStaticLayer('sol2', tileset);
         this.vaisseau =this.add.sprite(-500,650,"")
+        this.vaisseau.setScale(2)
         this.vaisseau.play('crash')
 
 
 
 
 
-        this.fog = map.createStaticLayer('fog', tileset);
-
-
-        this.froont = map.createStaticLayer('front', tileset);
-        this.froont2 = map.createStaticLayer('front2', tileset);
-        //this.physics.add.overlap(this.clefSprite, this.player.player, this.addKey(), null, this);
-
 
         this.froont3 = map.createStaticLayer('front3', tileset);
         this.froont4 = map.createStaticLayer('front4', tileset);
 
-        /**
-        this.particles = this.add.particles('leafemit');
-        this.particles.createEmitter({
-            follow:this.bonus,
-            angle: { min: 1, max: 360 },
-            scale: {start: 0.01, end: 0.1},
-            speed: 10,
-            gravityY: -1,
-            lifespan: { min: 1, max: 200 },
-            blendMode: 'ADD',
-            alpha:1,
-        });**/
+        this.fog = map.createStaticLayer('fog', tileset);
+
+
+
+        this.froont2 = map.createStaticLayer('front2', tileset);
+        this.froont5 = map.createStaticLayer('front5', tileset);
+        this.froont = map.createStaticLayer('front', tileset);
+        //this.physics.add.overlap(this.clefSprite, this.player.player, this.addKey(), null, this);
+
+
         this.posX=this.player.player.x
         this.posY=this.player.player.y
 
@@ -218,9 +215,32 @@ class scene extends Phaser.Scene {
         ///UI
         this.lifeui = this.add.sprite((this.player.cam.x), (this.player.cam.y),"life3");
         this.lifeui.setVisible(true);
+    }
+/**
+
+        this.intro = this.add.sprite(0, 0, 'menuback').setOrigin(0, 0);
+        this.intro.setScale(1)
+        this.intro.setVisible(false)
+        this.anims.create({
+            key: 'intro',
+            frames: this.anims.generateFrameNumbers('intro', {start: 0, end: 430}),
+            frameRate: 30,
+            repeat:0,
+            hideOnComplete:true
+        });
+        this.colideIntro = this.add.sprite(-350, 650,"");
+        this.colideIntro.setScale(2.5)
+        this.physics.add.overlap(this.player.player,this.colideIntro,this.Intro(),null,this);
+
+
+
 
     }
-
+    Intro(){
+        this.colideIntro.play('intro')
+        this.Alarmed.play()
+    }
+**/
     initKeyboard(){
         let tire=false;
         this.player = new Player(this)
@@ -302,6 +322,10 @@ class scene extends Phaser.Scene {
         this.Tir2.volume=0.1;
         this.Repere=this.sound.add('repere',{loop: false});
         this.Repere.volume=0.1;
+        this.Porte=this.sound.add('porte',{loop: false});
+        this.Porte.volume=0.1;
+        this.Alarmed=this.sound.add('alarme',{loop: false});
+        this.Alarmed.volume=0.1;
 
 
 
@@ -353,14 +377,13 @@ class scene extends Phaser.Scene {
     }
 
     update() {
-        //console.log(this.player.player.x)
-        //console.log(this.player.player.y)
+        console.log(this.player.player.x)
+        console.log(this.player.player.y)
 
         this.interfacelife()
         this.posX=this.player.player.x
         this.posY=this.player.player.y
-        console.log(this.posX)
-        console.log(this.posY)
+
         //this.gestionSon()
         if(this.player.player.y >5000 || this.player.player.y<-5000){
             this.player.life=0

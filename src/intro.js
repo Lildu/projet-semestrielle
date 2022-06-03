@@ -10,12 +10,15 @@ class Start extends Phaser.Scene {
         this.load.spritesheet('menu', 'assets/images/tilesheet/finaux/tilsesheet-menu.png',{ frameWidth: 480, frameHeight: 270 });
         this.load.spritesheet('intro', 'assets/images/tilesheet/finaux/intro-tilsheet.png',{ frameWidth: 480, frameHeight: 270 });
         this.load.audio('23','assets/son/23.wav');
+        this.load.audio('alarme','assets/son/alarme.wav');
     }
 
     create(){
         this.son=this.sound.add('23',{loop: true});
-        this.son.volume=0.2;
+        this.son.volume=0.5;
         this.son.play();
+        this.Alarmed=this.sound.add('alarme',{loop: false});
+        this.Alarmed.volume=0.1;
         this.menu = this.add.sprite(0, 0, 'menuback').setOrigin(0, 0);
         this.menu.setScale(3.5)
         this.menu.anims.create({
@@ -38,7 +41,6 @@ class Start extends Phaser.Scene {
             repeat:0,
             hideOnComplete:true
         });
-
 
 
         const buttonStartSprite = this.add.image(50, 390, 'bouton')
@@ -78,7 +80,7 @@ class Start extends Phaser.Scene {
                 this.intro.setVisible(true)
 
                 this.intro.play('intro')
-
+                this.Alarmed.play()
 
             })
             .on('pointerover',function(){
