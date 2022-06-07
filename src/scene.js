@@ -48,7 +48,6 @@ class scene extends Phaser.Scene {
         this.load.image("life2","assets/images/life2.png")
         this.load.image("life3","assets/images/life3.png")
 
-
         this.load.spritesheet('shield', 'assets/images/tilesheet/tilesheet-shield.png',{ frameWidth: 512, frameHeight: 512 });
         this.load.spritesheet('sword', 'assets/images/tilesheet/tilesheet-sword2.png',{ frameWidth: 512, frameHeight: 512 });
         this.load.spritesheet('midle', 'assets/images/tilesheet/tilesheet-gun-midle.png',{ frameWidth: 512, frameHeight: 512 });
